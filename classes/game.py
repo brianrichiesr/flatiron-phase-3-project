@@ -3,10 +3,13 @@ from solution import Solution
 demo = Solution.create_solution()
 print(f"Game.py - {demo.solution}")
 class Game:
+    all = []
 
-    def __init__(self, player, solution):
+    def __init__(self, player):
         self.player = player
-        self.solution = solution
+        self.solution = demo
+        self.guesses = []
+        type(self).all.append(self)
     
     @property
     def player(self):
@@ -29,6 +32,7 @@ class Game:
             raise TypeError("Solution must be a Solution")
         else:
             self._solution = solution
+            print(demo.solution)
     
     def guess(self, guess):
         return self.solution.solution == guess
