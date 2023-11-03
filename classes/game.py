@@ -1,6 +1,7 @@
 from .player import Player
 from .solution import Solution
-print(f"Game.py - {Solution.create_solution().solution}")
+from .valid_words import valid_words
+
 class Game:
     all = []
 
@@ -31,9 +32,9 @@ class Game:
             raise TypeError("Solution must be a Solution")
         else:
             self._solution = solution
-            # print(demo.solution)
     
     def guess(self, guess):
-        self.guesses.append(guess)
+        if guess.lower() in valid_words:
+            self.guesses.append(guess)
         return self.solution.solution == guess
     
