@@ -1,4 +1,4 @@
-from all_words import all_words
+from .all_words import all_words
 import random
 
 class Solution:
