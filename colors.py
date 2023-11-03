@@ -1,6 +1,8 @@
 import curses
 
 def color_word(word, target_word):
+    word.upper()
+    target_word.upper()
     colors = []
     used = [False] * len(target_word)
 
@@ -18,14 +20,14 @@ def color_word(word, target_word):
                     colors[idx] = 2  # Yellow for correct letter in the wrong position
                     used[i] = True
                     break
-
+    
     return colors
 
 def print_colored_word(stdscr,word,compare):
     for letter, color in zip(word, color_word(word,compare)):
         if color == 1:
-            stdscr.addch(letter, curses.color_pair(1) | curses.A_BOLD)
+            stdscr.addch(letter, curses.color_pair(color))
         elif color == 2:
-            stdscr.addch(letter, curses.color_pair(2) | curses.A_BOLD)
+            stdscr.addch(letter, curses.color_pair(color))
         else:
             stdscr.addch(letter)

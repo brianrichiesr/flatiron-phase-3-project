@@ -16,7 +16,7 @@ class Solution:
     @solution.setter
     def solution(self, solution):
         if isinstance(solution, str):
-            self._solution = solution
+            self._solution = solution.upper()
         else:
             raise TypeError("Solution must be a string")
     
