@@ -32,7 +32,7 @@ def main(stdscr):
     # Define the word and colors for each letter
 
     # Call the function to print the word with colors
-    print_colored_word(stdscr, "elloh", "Hollo")
+    print_colored_word(stdscr, "yllll", "bolly")
 
     stdscr.getch()  # Wait for user input
 
