@@ -5,7 +5,7 @@ class Solution:
 
     # https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
     # website where we got the wordle words from
-     
+    
     def __init__(self, solution):
         self.solution = solution
         
