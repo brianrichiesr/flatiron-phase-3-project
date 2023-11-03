@@ -2,6 +2,7 @@
 from classes.game import Game
 from classes.player import Player
 from classes.solution import Solution
+from color_test import *
 import curses
 is_playing = False
 user = None
@@ -16,6 +17,9 @@ except Exception as e:
 
 #!main game loop:
 def main(stdscr):
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Set up the screen
     new_game = Game(user)
     print(new_game.solution)
@@ -23,6 +27,7 @@ def main(stdscr):
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
     all = ""
+    idx = 0
 
     while is_playing:
         key = stdscr.getch()
@@ -32,30 +37,28 @@ def main(stdscr):
                 all = all[:-1]
 
             elif len(all) < 5 and chr(key).isalpha():  
-                all += chr(key)
+                all += chr(key).upper()
+                
             
             if key == 10:
                 if len(all) == 5:
-                    stdscr.clear()
-                    stdscr.addstr(0, 0, f'You chose: {all}')
-                    stdscr.refresh()
                     if new_game.guess(all):
-                        all = ""
                         stdscr.clear()
                         stdscr.addstr(0, 0, f'You won! The word was {all}')
                         stdscr.refresh()
+                        all = ""
                     else:
                         stdscr.clear()
-                        for idx,guess in enumerate(new_game.guesses):
-                            stdscr.addstr(idx, 0, f'{guess}')
-                        stdscr.refresh()
-                        all = ""
-                    
+                        for guess in new_game.guesses:
+                            print_colored_word(stdscr,guess,new_game.solution.solution)
+                            stdscr.addch('\n')
+                        idx = len(new_game.guesses)
+                        all=""
             else:
-                stdscr.clear()
-                stdscr.addstr(0, 0, f'Current word: {all}')
+                stdscr.deleteln()
+                stdscr.move(idx,0)
+                stdscr.addstr(all)
                 stdscr.refresh()
-
 
         if key == ord('q'):
             break
