@@ -1,5 +1,6 @@
 from wordle.player import Player
 import curses
+import random
 
 class MinesweeperGame:
     all = []
@@ -11,6 +12,7 @@ class MinesweeperGame:
         self.mines = mines
         self.board = self.create_board()
         type(self).all.append(self)
+        self.set_mines()
 
         # Initialize the curses window
         self.stdscr = curses.initscr()
@@ -70,11 +72,30 @@ class MinesweeperGame:
         board = [['X' for _ in range(self.cols)] for _ in range(self.rows)]
         return board
     
+    def set_mines(self):
+        mine_positions = set()
+        while len(mine_positions) < self.mines:
+            random_row = random.randint(0, self.rows - 1)
+            random_col = random.randint(0, self.cols - 1)
+            mine_positions.add((random_row, random_col))
+
+        for (row, col) in mine_positions:
+            self.board[row][col] = 'B'
+
+    
     def render(self):
         for row in range(self.rows):
             for col in range(self.cols):
                 self.stdscr.addch(row, 2 * col, self.board[row][col])
         self.stdscr.refresh()
+
+    def handle_mouse_click(self, x, y):
+        if 0 <= x < 2 * self.cols and 0 <= y < self.rows:
+            col = x // 2
+            if self.board[y][col] == 'X':
+                self.board[y][col] = 'O'
+                self.render()
+
 
 
     

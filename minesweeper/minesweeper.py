@@ -36,7 +36,7 @@ def minesweeper(stdscr, user, is_playing, difficulty):
         return None
     
     new_game = MinesweeperGame(user, rows, cols, mines)
-    
+    curses.mousemask(1)
     curses.curs_set(0)  # Hide the cursor
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
@@ -49,4 +49,7 @@ def minesweeper(stdscr, user, is_playing, difficulty):
         key = stdscr.getch()
         if key == ord('q'):
             break
+        elif key == curses.KEY_MOUSE:
+            _, x, y, _, _ = curses.getmouse()
+            new_game.handle_mouse_click(x, y)
         
