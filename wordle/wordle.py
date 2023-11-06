@@ -91,5 +91,3 @@ def wordle(stdscr, user, is_playing):
 
         if key == 27:
             break
-    
-    
