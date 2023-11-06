@@ -85,7 +85,7 @@ def wordle(stdscr, user, is_playing):
                         is_playing = False
                         stdscr.clear()
                     else:
-                        if Database.is_valid_word(all):
+                        if Database.is_valid_word(user_guess):
                             print_all_guesses()
                             stdscr.refresh()
                             idx = len(new_game.guesses)
