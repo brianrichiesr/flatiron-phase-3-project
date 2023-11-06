@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+from clear import clear
 from wordle import start_wordle
 
 def main():
     print("Before true")
     while True:
-
+        clear()
         print("1. Play Wordle")
         print("17. Exit program")
         choice = input("> ")
