@@ -3,7 +3,7 @@ from .game import Game
 from .player import Player
 from .solution import Solution
 from wordle.colors import *
-from .valid_words import valid_words
+from database.orm import Database
 import curses
 import time
 
@@ -61,7 +61,7 @@ def wordle(stdscr, user, is_playing):
                         is_playing = False
                         stdscr.clear()
                     else:
-                        if all.lower() in valid_words:
+                        if Database.is_valid_word(all):
                             print_all_guesses()
                             stdscr.refresh()
                             idx = len(new_game.guesses)

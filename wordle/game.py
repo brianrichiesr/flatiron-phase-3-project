@@ -1,6 +1,6 @@
 from .player import Player
 from .solution import Solution
-from .valid_words import valid_words
+from database.orm import Database
 
 class Game:
     all = []
@@ -34,7 +34,7 @@ class Game:
             self._solution = solution
     
     def guess(self, guess):
-        if guess.lower() in valid_words:
+        if Database.is_valid_word(guess):
             self.guesses.append(guess)
         return self.solution.solution == guess
     
