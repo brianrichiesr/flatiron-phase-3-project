@@ -55,10 +55,14 @@ class MinesweeperGame:
     def mines(self, mines):
         if not isinstance(mines, int):
             raise TypeError("Number of mines must be an integer")
-        # elif not 8 <= mines <= 16:
-        #     raise ValueError("Number of mines must be between 8 and 30, inclusive")
         else:
             self._mines = mines
+
+    def create_board(self):
+        board = [['X' for _ in range(self.cols)] for _ in range(self.rows)]
+        return board
+    
+    
     
     
     

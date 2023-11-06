@@ -2,7 +2,7 @@
 from .wordle_game import WordleGame
 from ..player import Player
 from wordle.colors import *
-from .valid_words import valid_words
+from valid_words import valid_words
 import curses
 import time
 

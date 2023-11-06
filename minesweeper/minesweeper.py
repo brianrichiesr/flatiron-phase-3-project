@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 from .minesweeper_game import MinesweeperGame
 from ..player import Player
-
 import curses
 import time
 
-def start_wordle():
+def start_minesweeper():
     is_playing = False
     user = None
     user_name = input("Please enter a username between 1-10 letters: ")
@@ -23,7 +22,24 @@ def minesweeper(stdscr, user, is_playing):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Set up the screen
-    new_game = MinesweeperGame(user)
+    print("1. Beginner | 9 x 9 | 10 Mines \n 2. Intermediate | 16 x 16 | 40 Mines \n 3. Advanced | 30 x 16 | 99 Mines \n")
+    difficulty = input("Please select a difficulty to start the game: ")
+    if difficulty == 1:
+        rows = 9
+        cols = 9
+        mines = 10
+        new_game = MinesweeperGame(user, rows, cols, mines)
+    elif difficulty == 2:
+        rows = 16
+        cols = 16
+        mines = 40
+        new_game = MinesweeperGame(user, rows, cols, mines)
+    else:
+        rows = 30
+        cols = 16
+        mines = 99
+        new_game = MinesweeperGame(user, rows, cols, mines)
+    
     curses.curs_set(0)  # Hide the cursor
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
@@ -31,7 +47,7 @@ def minesweeper(stdscr, user, is_playing):
     idx = 0
 
     while is_playing:
-        pass
+        new_game.create_board()
         # key = stdscr.getch()
         
         # if key != -1:
