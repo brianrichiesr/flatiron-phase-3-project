@@ -77,8 +77,8 @@ def wordle(stdscr, user, is_playing):
                     if new_game.guess(user_guess):
                         stdscr.clear()
                         end_time = time.time()
-                        score = (1000 / (round(end_time - start_time,2))) * (7 - len(new_game.guesses))
-                        stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!\n\nYour score was {score:.2f}!')
+                        score = (1000 / (round(end_time - start_time,2))) * (7 - len(new_game.guesses) + 5)
+                        stdscr.addstr(0, 0, f'You won! The word was {user_guess}, it took you {end_time - start_time:.2f} seconds!\n\nYour score was {score:.2f}!')
                         Database.insert_wordle_game(("Wordle", round(end_time-start_time,2), 1, round(score,2), Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
