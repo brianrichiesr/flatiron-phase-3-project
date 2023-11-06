@@ -1,6 +1,6 @@
-from ..player import Player
-from solution import Solution
-from valid_words import valid_words
+from .player import Player
+from .solution import Solution
+from .valid_words import valid_words
 
 class WordleGame:
     all = []

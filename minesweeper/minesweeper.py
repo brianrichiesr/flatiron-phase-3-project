@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from .minesweeper_game import MinesweeperGame
-from ..player import Player
+from ..wordle.player import Player
 import curses
 import time
 

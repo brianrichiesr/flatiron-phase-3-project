@@ -1,4 +1,4 @@
-from ..player import Player
+from ..wordle.player import Player
 
 class MinesweeperGame:
     all = []
