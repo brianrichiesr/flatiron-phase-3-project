@@ -2,6 +2,7 @@
 from clear_screen import clear
 from wordle.wordle import start_wordle
 from minesweeper.minesweeper import start_minesweeper
+import curses
 
 def main():
     print("Before true")
