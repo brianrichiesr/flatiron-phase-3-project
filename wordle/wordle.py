@@ -6,6 +6,8 @@ from database.orm import Database
 import curses
 import time
 
+# Function that asks for user name when is_playing is False and
+#   shows the game when is_playing is True
 def start_wordle():
     is_playing = False
     user = None
@@ -36,39 +38,50 @@ def wordle(stdscr, user, is_playing):
     curses.curs_set(0)  # Hide the cursor
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
-    all = ""
+    user_guess = ""
     idx = 0
     stdscr.clear()
     stdscr.refresh()
 
+    # Function that will iterate through all the user's guess in current game
+    #   and print them on the screen with the correct colors
     def print_all_guesses():
         stdscr.clear()
         for guess in new_game.guesses:
             print_colored_word(stdscr,guess,new_game.solution.solution)
             stdscr.addch('\n')
 
-
+    # During while loop iteration, which will constantly run while is_playing
+    #   is True, allow user to play game
     while is_playing:
+        # Store value of the key user pressed in demo
         key = stdscr.getch()
-        
+        # If keyboard key is pressed
         if key != -1:
+            # If key is delete or backspace
             if key == 127 or key == 263:
-                all = all[:-1]
+                # Remove last character from user_guess
+                user_guess = user_guess[:-1]
 
-            elif len(all) < 5 and chr(key).isalpha():  
-                all += chr(key).upper()
+            # If user_guess length is less than 5
+            elif len(user_guess) < 5 and chr(key).isalpha():  
+                # Add current key value in uppercase to user_guess
+                user_guess += chr(key).upper()
                 
-            
+            # If the key pressed was return or enter
             if key == 10:
-                if len(all) == 5:
-                    if new_game.guess(all):
+                # If the length of user_guess is 5
+                if len(user_guess) == 5:
+                    # If evaluation of user_guess in the new_game.guess method
+                    #   returns True, user wins
+                    if new_game.guess(user_guess):
                         stdscr.clear()
                         end_time = time.time()
                         stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!')
                         Database.insert_game(("Wordle",round(end_time-start_time,2),1,Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
-                        all = ""
+                        user_guess = ""
                         is_playing = False
                         stdscr.clear()
                     else:
@@ -76,7 +89,8 @@ def wordle(stdscr, user, is_playing):
                             print_all_guesses()
                             stdscr.refresh()
                             idx = len(new_game.guesses)
-                            all=""
+                            user_guess=""
+                            # If there has been a total of 6 guesses, user loses
                             if idx == 6:
                                 stdscr.clear()
                                 end_time = time.time()
@@ -94,13 +108,13 @@ def wordle(stdscr, user, is_playing):
                             time.sleep(1.0)
                             print_all_guesses()
                             # all=""
-                            stdscr.addstr(all)
+                            stdscr.addstr(user_guess)
                             stdscr.refresh()
 
             else:
                 stdscr.deleteln()
                 stdscr.move(idx,0)
-                stdscr.addstr(all)
+                stdscr.addstr(user_guess)
                 stdscr.refresh()
 
         if key == 27:

@@ -1,3 +1,4 @@
+# Import classes/data
 from .player import Player
 from .solution import Solution
 from database.orm import Database
@@ -5,12 +6,15 @@ from database.orm import Database
 class WordleGame:
     all = []
 
+    # Initialize class with player attribute, solution attribute made from
+    #   imported Solution class, and a list of guesses attribute
     def __init__(self, player):
         self.player = player
         self.solution = Solution.create_solution()
         self.guesses = []
         type(self).all.append(self)
     
+    # Getter/Setter for player
     @property
     def player(self):
         return self._player
@@ -22,6 +26,7 @@ class WordleGame:
         else:
             self._player = player
     
+    # Getter/Setter for solution 
     @property
     def solution(self):
         return self._solution
@@ -33,6 +38,10 @@ class WordleGame:
         else:
             self._solution = solution
     
+    # Function that checks if the users guess is in a list of valid words first,
+    #   to ensure that the user is using actual words to play the game and not
+    #   just some random letters to make solving the puzzle easier, then checks if 
+    #   the user's guess is correct
     def guess(self, guess):
         if Database.is_valid_word(guess):
             self.guesses.append(guess)

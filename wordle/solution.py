@@ -1,13 +1,13 @@
 from database.orm import Database
 
+# Create Solution class
 class Solution:
-
-    # https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
-    # website where we got the wordle words from
     
+    # Initialize class with solution attribute
     def __init__(self, solution):
         self.solution = solution
-        
+    
+    # Getter/Setter for solution
     @property
     def solution(self):
         return self._solution
@@ -19,6 +19,7 @@ class Solution:
         else:
             raise TypeError("Solution must be a string")
     
+    # Function that retrieves and returns a random word from all_words
     @classmethod
     def create_solution(cls):
         return cls(Database.get_random_word()[1])
