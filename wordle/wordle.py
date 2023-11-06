@@ -10,12 +10,18 @@ import time
 def start_wordle():
     is_playing = False
     user = None
-    user_name = input("Please enter a username between 1-10 letters: ")
-    try:
-        user = Player(user_name)
-        is_playing = True
-    except Exception as e:
-        print(e)
+    while not user:
+        user_name = input("Please enter a username between 1-10 letters: ")
+        try:
+            if(Database.insert_player(user_name)):
+                user = Player(user_name)
+            else:
+                print("Player with that username was found, logging in...")
+                time.sleep(1)
+                user = Player(user_name)
+            is_playing = True
+        except Exception as e:
+            print(e)
     curses.wrapper(lambda x: wordle(x, user, is_playing))
 
 
