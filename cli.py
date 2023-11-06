@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from clear import clear
+from clear_screen import clear
 from wordle import start_wordle
 
 def main():
