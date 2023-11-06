@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-from classes.game import Game
-from classes.player import Player
-from classes.solution import Solution
-from colors import *
-from classes.valid_words import valid_words
+from .game import Game
+from .player import Player
+from .solution import Solution
+from wordle.colors import *
+from .valid_words import valid_words
 import curses
 import time
 
