@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from clear_screen import clear
-from wordle import start_wordle
+from wordle.wordle import start_wordle
 
 def main():
     print("Before true")
