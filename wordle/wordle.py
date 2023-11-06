@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-from .game import Game
-from .player import Player
-from .solution import Solution
+from .wordle_game import WordleGame
+from ..player import Player
 from wordle.colors import *
 from .valid_words import valid_words
 import curses
@@ -25,7 +24,7 @@ def wordle(stdscr, user, is_playing):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Set up the screen
-    new_game = Game(user)
+    new_game = WordleGame(user)
     curses.curs_set(0)  # Hide the cursor
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)

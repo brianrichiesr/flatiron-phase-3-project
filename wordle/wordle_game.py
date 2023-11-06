@@ -1,8 +1,8 @@
-from .player import Player
+from ..player import Player
 from .solution import Solution
 from .valid_words import valid_words
 
-class Game:
+class WordleGame:
     all = []
 
     def __init__(self, player):

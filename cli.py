@@ -7,10 +7,13 @@ def main():
     while True:
         clear()
         print("1. Play Wordle")
+        print("2. Play Minesweeper")
         print("17. Exit program")
         choice = input("> ")
         if choice == "1":
             start_wordle()
+        elif choice == "2":
+            start_minesweeper()
         elif choice == "17":
             exit()
         else:
