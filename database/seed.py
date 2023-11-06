@@ -104,6 +104,7 @@ def seed(delete=None,extra=None):
         result = cursor.execute("SELECT * FROM games_played").fetchall()
         print(f'All games played: {result}')
 
-seed(True,"Yes")
+# seed(True,"Yes")
+seed()
 
 
