@@ -30,6 +30,8 @@ def wordle(stdscr, user, is_playing):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    start_time = time.time()
+
     # Set up the screen
     new_game = Game(user)
     curses.curs_set(0)  # Hide the cursor
@@ -60,7 +62,9 @@ def wordle(stdscr, user, is_playing):
                 if len(all) == 5:
                     if new_game.guess(all):
                         stdscr.clear()
-                        stdscr.addstr(0, 0, f'You won! The word was {all}')
+                        end_time = time.time()
+                        stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!')
+                        Database.insert_game(("Wordle",round(end_time-start_time,2),Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
                         all = ""
@@ -74,7 +78,9 @@ def wordle(stdscr, user, is_playing):
                             all=""
                             if idx == 6:
                                 stdscr.clear()
-                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}")
+                                end_time = time.time()
+                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}, it took you {end_time - start_time:.2f} seconds!")
+                                Database.insert_game(("Wordle",round(end_time-start_time,2),Database.get_player(user.username)[0]))
                                 stdscr.refresh()
                                 time.sleep(3.0)
                                 is_playing = False
