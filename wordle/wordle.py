@@ -64,7 +64,7 @@ def wordle(stdscr, user, is_playing):
                         stdscr.clear()
                         end_time = time.time()
                         stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!')
-                        Database.insert_game(("Wordle",round(end_time-start_time,2),Database.get_player(user.username)[0]))
+                        Database.insert_game(("Wordle",round(end_time-start_time,2),1,Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
                         all = ""
@@ -80,7 +80,7 @@ def wordle(stdscr, user, is_playing):
                                 stdscr.clear()
                                 end_time = time.time()
                                 stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}, it took you {end_time - start_time:.2f} seconds!")
-                                Database.insert_game(("Wordle",round(end_time-start_time,2),Database.get_player(user.username)[0]))
+                                Database.insert_game(("Wordle",round(end_time-start_time,2),0,Database.get_player(user.username)[0]))
                                 stdscr.refresh()
                                 time.sleep(3.0)
                                 is_playing = False

@@ -43,6 +43,7 @@ def seed(delete=None,extra=None):
             id INTEGER PRIMARY KEY,
             game_name TEXT,
             time_played FLOAT,
+            win INTEGER,
             player_id INTEGER
             );
         ''')
@@ -103,6 +104,6 @@ def seed(delete=None,extra=None):
         result = cursor.execute("SELECT * FROM games_played").fetchall()
         print(f'All games played: {result}')
 
-seed()
+seed(True,"Yes")
 
 

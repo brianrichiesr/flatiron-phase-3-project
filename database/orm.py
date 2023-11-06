@@ -43,11 +43,12 @@ class Database:
                 return True
             else:
                 return False
+            
     @classmethod
     def insert_game(cls,game_tuple):
          #!Game tuple should be a tuple with arguments (game_name,time_played,player_id)
          with connection:
-            cursor.execute("INSERT INTO games_played (game_name,time_played,player_id) VALUES (?,?,?)",game_tuple)
+            cursor.execute("INSERT INTO games_played (game_name,time_played,win,player_id) VALUES (?,?,?,?)",game_tuple)
             connection.commit()
 
 #!TODO
