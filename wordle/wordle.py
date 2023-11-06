@@ -33,7 +33,7 @@ def wordle(stdscr, user, is_playing):
 
     # Set up the screen
     new_game = WordleGame(user)
-    curses.curs_set(0)  # Hide the cursor
+    # curses.curs_set(0)  # Hide the cursor
     stdscr.nodelay(1)  # Make getch non-blocking
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
     all = ""
