@@ -1,7 +1,11 @@
+# Create Player class
 class Player:
+
+    # Initialize class with username attribute
     def __init__(self, username):
         self.username = username
     
+    # Getter/Setter for username
     @property
     def username(self):
         return self._username

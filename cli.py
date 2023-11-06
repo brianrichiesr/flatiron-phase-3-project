@@ -2,6 +2,7 @@
 from clear_screen import clear
 from wordle.wordle import start_wordle
 
+# Print the menu of options when the user starts up the app
 def main():
     print("Before true")
     while True:
@@ -16,5 +17,6 @@ def main():
         else:
             print("Invalid choice")
 
+# If this file is ran as the main and not imported it will run main()
 if __name__ == "__main__":
     main()
