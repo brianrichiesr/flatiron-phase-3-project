@@ -2,19 +2,25 @@
 from .wordle_game import WordleGame
 from .player import Player
 from wordle.colors import *
-from .valid_words import valid_words
+from database.orm import Database
 import curses
 import time
 
 def start_wordle():
     is_playing = False
     user = None
-    user_name = input("Please enter a username between 1-10 letters: ")
-    try:
-        user = Player(user_name)
-        is_playing = True
-    except Exception as e:
-        print(e)
+    while not user:
+        user_name = input("Please enter a username between 1-10 letters: ")
+        try:
+            if(Database.insert_player(user_name)):
+                user = Player(user_name)
+            else:
+                print("Player with that username was found, logging in...")
+                time.sleep(1)
+                user = Player(user_name)
+            is_playing = True
+        except Exception as e:
+            print(e)
     curses.wrapper(lambda x: wordle(x, user, is_playing))
 
 
@@ -23,6 +29,8 @@ def wordle(stdscr, user, is_playing):
     curses.start_color()
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    start_time = time.time()
+
     # Set up the screen
     new_game = WordleGame(user)
     curses.curs_set(0)  # Hide the cursor
@@ -55,21 +63,25 @@ def wordle(stdscr, user, is_playing):
                 if len(all) == 5:
                     if new_game.guess(all):
                         stdscr.clear()
-                        stdscr.addstr(0, 0, f'You won! The word was {all}')
+                        end_time = time.time()
+                        stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!')
+                        Database.insert_game(("Wordle",round(end_time-start_time,2),1,Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
                         all = ""
                         is_playing = False
                         stdscr.clear()
                     else:
-                        if all.lower() in valid_words:
+                        if Database.is_valid_word(all):
                             print_all_guesses()
                             stdscr.refresh()
                             idx = len(new_game.guesses)
                             all=""
                             if idx == 6:
                                 stdscr.clear()
-                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}")
+                                end_time = time.time()
+                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}, it took you {end_time - start_time:.2f} seconds!")
+                                Database.insert_game(("Wordle",round(end_time-start_time,2),0,Database.get_player(user.username)[0]))
                                 stdscr.refresh()
                                 time.sleep(3.0)
                                 is_playing = False

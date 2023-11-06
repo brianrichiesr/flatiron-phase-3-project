@@ -1,5 +1,4 @@
-from .all_words import all_words
-import random
+from database.orm import Database
 
 class Solution:
 
@@ -22,4 +21,4 @@ class Solution:
     
     @classmethod
     def create_solution(cls):
-        return cls(all_words[random.randint(0, (len(all_words) - 1))].upper())
+        return cls(Database.get_random_word()[1])

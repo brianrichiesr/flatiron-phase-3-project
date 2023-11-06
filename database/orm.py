@@ -24,13 +24,14 @@ class Database:
             return cursor.execute("SELECT games_played.* FROM players JOIN games_played ON players.id = games_played.player_id WHERE name = ? COLLATE NOCASE",(name,)).fetchall()
 
     @classmethod
-    def get_all_words(cls):
+    def is_valid_word(cls,word):
         with connection:
-            return cursor.execute("SELECT * FROM words").fetchall()
+            return cursor.execute("SELECT * FROM words WHERE word = ? COLLATE NOCASE",(word,)).fetchone()
         
     @classmethod
     def get_random_word(cls):
-        return cls.get_all_words()[random.randint(0,len(cls.get_all_words()))]
+        all_words = cursor.execute("SELECT * FROM valid_words").fetchall()
+        return all_words[random.randint(0,len(all_words))]
     
     @classmethod
     def insert_player(cls,name):
@@ -42,11 +43,12 @@ class Database:
                 return True
             else:
                 return False
+            
     @classmethod
     def insert_game(cls,game_tuple):
          #!Game tuple should be a tuple with arguments (game_name,time_played,player_id)
          with connection:
-            cursor.execute("INSERT INTO games_played (game_name,time_played,player_id) VALUES (?,?,?)",game_tuple)
+            cursor.execute("INSERT INTO games_played (game_name,time_played,win,player_id) VALUES (?,?,?,?)",game_tuple)
             connection.commit()
 
 #!TODO
@@ -54,13 +56,14 @@ class Database:
 #Get all players
 #Get specific player
 #Get all played games from player
-#Get all words
 #Get random word
+#Check for valid word
 #Insert player
 #Insert game played
 
 # print(Database.get_all_players())
 # print(Database.get_player("samantha"))
 # print(Database.get_player_games("peter"))
-# print(Database.get_random_word())
-print(Database.insert_player("samanth"))
+print(Database.get_random_word())
+# print(Database.insert_player("samanth"))
+# print(Database.is_valid_word("tests"))
