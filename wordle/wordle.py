@@ -30,6 +30,8 @@ def wordle(stdscr, user, is_playing):
     stdscr.timeout(100)  # Set a timeout for getch (100 milliseconds)
     all = ""
     idx = 0
+    stdscr.clear()
+    stdscr.refresh()
 
     def print_all_guesses():
         stdscr.clear()
