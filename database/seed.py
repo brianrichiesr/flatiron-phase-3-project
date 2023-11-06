@@ -1,5 +1,6 @@
 import sqlite3
 import sys
+import random
 sys.path.append('.')
 from wordle.valid_words import valid_words
 from wordle.all_words import all_words
@@ -20,31 +21,32 @@ def seed(delete=None,extra=None):
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS words (
             id INTEGER PRIMARY KEY,
-            word TEXT UNIQUE
+            word TEXT UNIQUE NOT NULL
             );
         ''')
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS valid_words (
             id INTEGER PRIMARY KEY,
-            word TEXT UNIQUE
+            word TEXT UNIQUE NOT NULL
             );
         ''')
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS players (
             id INTEGER PRIMARY KEY,
-            name TEXT
+            name TEXT NOT NULL
             );
         ''')
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS games_played (
             id INTEGER PRIMARY KEY,
-            game_name TEXT,
-            time_played FLOAT,
-            win INTEGER,
-            player_id INTEGER
+            game_name TEXT NOT NULL,
+            time_played FLOAT NOT NULL,
+            win INTEGER NOT NULL,
+            score FLOAT NOT NULL,
+            player_id INTEGER NOT NULL
             );
         ''')
 
@@ -88,23 +90,20 @@ def seed(delete=None,extra=None):
 
     #!Seeding test for random games played
     with connection:
-        data_to_insert = [
-            ('Chess', 2.5, 1),
-            ('Chess', 1.7, 2),
-            ('Checkers', 1.2, 1),
-            ('Checkers', 0.8, 3),
-            ('Monopoly', 3.0, 2),
-            ('Monopoly', 2.5, 3),
+        fake_data = [
+        ("Chess", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
+        ("Checkers", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
+        ("Monopoly", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
         ]
-        for entry in data_to_insert:
+        for entry in fake_data:
             cursor.execute('''
-                INSERT INTO games_played (game_name,time_played,player_id) VALUES (?,?,?)
+                INSERT INTO games_played (game_name,time_played,win,score,player_id) VALUES (?,?,?,?,?)
             ''',entry)
         
         result = cursor.execute("SELECT * FROM games_played").fetchall()
         print(f'All games played: {result}')
 
-# seed(True,"Yes")
-seed()
+seed(True,"Yes")
+# seed()
 
 

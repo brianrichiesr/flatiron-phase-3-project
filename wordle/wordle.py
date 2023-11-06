@@ -77,8 +77,9 @@ def wordle(stdscr, user, is_playing):
                     if new_game.guess(user_guess):
                         stdscr.clear()
                         end_time = time.time()
-                        stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!')
-                        Database.insert_game(("Wordle",round(end_time-start_time,2),1,Database.get_player(user.username)[0]))
+                        score = (1000 / (round(end_time - start_time,2))) * (7 - len(new_game.guesses))
+                        stdscr.addstr(0, 0, f'You won! The word was {all}, it took you {end_time - start_time:.2f} seconds!\n\nYour score was {score:.2f}!')
+                        Database.insert_wordle_game(("Wordle", round(end_time-start_time,2), 1, round(score,2), Database.get_player(user.username)[0]))
                         stdscr.refresh()
                         time.sleep(3.0)
                         user_guess = ""
@@ -94,8 +95,9 @@ def wordle(stdscr, user, is_playing):
                             if idx == 6:
                                 stdscr.clear()
                                 end_time = time.time()
-                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}, it took you {end_time - start_time:.2f} seconds!")
-                                Database.insert_game(("Wordle",round(end_time-start_time,2),0,Database.get_player(user.username)[0]))
+                                score = (1000 / (round(end_time - start_time,2))) * (7 - len(new_game.guesses))
+                                stdscr.addstr(0, 0, f"Game over. {new_game.solution.solution}, it took you {end_time - start_time:.2f} seconds!\n\nYour score was {score:.2f}!")
+                                Database.insert_wordle_game(("Wordle", round(end_time-start_time,2), 0, round(score,2), Database.get_player(user.username)[0]))
                                 stdscr.refresh()
                                 time.sleep(3.0)
                                 is_playing = False
