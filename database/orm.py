@@ -50,6 +50,21 @@ class Database:
          with connection:
             cursor.execute("INSERT INTO games_played (game_name,time_played,win,score,player_id) VALUES (?,?,?,?,?)",game_tuple)
             connection.commit()
+    
+    @classmethod
+    def best_game(cls,name):
+         #!Game tuple should be a tuple with arguments (game_name,time_played,player_id)
+         with connection:
+            return cursor.execute('''
+            SELECT games.game_name, games.time_played, games.win, MAX(games.score) AS max_score
+            FROM players
+            JOIN games_played AS games ON players.id = games.player_id
+            WHERE players.name = ? COLLATE NOCASE
+            GROUP BY players.name, games.game_name
+            ORDER BY max_score DESC
+            LIMIT 1;
+        ''',(name,)).fetchone()
+
 
 #!TODO
 #CLASSMETHODS
@@ -64,6 +79,7 @@ class Database:
 # print(Database.get_all_players())
 # print(Database.get_player("samantha"))
 # print(Database.get_player_games("peter"))
-print(Database.get_random_word())
+# print(Database.get_random_word())
 # print(Database.insert_player("samanth"))
 # print(Database.is_valid_word("tests"))
+# print(Database.best_game("danner"))
