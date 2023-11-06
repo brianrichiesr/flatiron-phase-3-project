@@ -51,5 +51,5 @@ def minesweeper(stdscr, user, is_playing, difficulty):
             break
         elif key == curses.KEY_MOUSE:
             _, x, y, _, _ = curses.getmouse()
-            new_game.handle_mouse_click(x, y)
+            # new_game.handle_mouse_click(x, y)
         

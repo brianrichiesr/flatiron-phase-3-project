@@ -12,7 +12,8 @@ class MinesweeperGame:
         self.mines = mines
         self.board = self.create_board()
         type(self).all.append(self)
-        self.set_mines()
+        # self.set_mines()
+        # self.calculate_neighbor_numbers()
 
         # Initialize the curses window
         self.stdscr = curses.initscr()
@@ -82,11 +83,52 @@ class MinesweeperGame:
         for (row, col) in mine_positions:
             self.board[row][col] = 'B'
 
+    def calculate_neighbor_numbers(self):
+        # Each neighbor for reference
+        # Top Left: row - 1, col - 1
+        # Top Middle: row - 1, col
+        # Top Right: row - 1, col + 1
+        # Middle Left: row, col - 1
+        # Middle Middle: row, col
+        # Middle Right: row, col + 1
+        # Bottom Left: row + 1, col - 1
+        # Bottom Middle: row + 1, col
+        # Bottom Right: row + 1, col + 1
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if self.board[r][c] == 'X':
+                    bomb_count = 0
+                    for row in range(r - 1, r + 2):
+                        for col in range(c - 1, c + 2):
+                            if 0 <= row < self.rows and 0 <= col < self.cols and self.board[row][col] == 'B':
+                                bomb_count += 1
+                    if bomb_count > 0:
+                        self.board[r][c] = str(bomb_count)
+        
     
     def render(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                self.stdscr.addch(row, 2 * col, self.board[row][col])
+        # TOP AND BOTTOM BORDERS
+        for row in [0, self.rows + 1]:
+            for col in range((2 * self.cols) + 3):
+                self.stdscr.addch(row, col, '-')
+        # SIDE BORDERS
+        for row in range(1, self.rows + 1):
+            for col in [0, (2 * self.cols) + 2]:
+                self.stdscr.addch(row, col, '|')
+        # # GAME BOARD
+        # for row in range(1, self.rows + 1):
+        #     for col in range(1, (2 * self.cols) + 1):
+        #         self.stdscr.addch(row, 2 * col, self.board[row][col])
+        # for row in range(self.rows + 2):
+        #     for col in range((2 * self.cols) + 2):
+        #         if row == 0 or row == 10:
+        #             self.stdscr.addch(row, col, '-')
+        #         elif (col == 0 and (row != 0 or row != 10)) or (col == 19 and (row != 0 or row != 10)):
+        #             self.stdscr.addch(row, col, '|')
+        #         elif col % 2:
+        #             self.stdscr.addch(row, col, self.board[row][col // 2])
+                # else:
+                #     self.stdscr.addch(row, col, ' ')
         self.stdscr.refresh()
 
     def handle_mouse_click(self, x, y):
