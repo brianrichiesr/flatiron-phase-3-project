@@ -1,5 +1,6 @@
 from clear_screen import clear
 from database.orm import Database
+import curses
 import time
 
 
@@ -30,9 +31,12 @@ def show_stats(user):
                     if response.lower() == "y":
                         clear()
                         print("| Game Name | Time Played | Win/Loss | Score |")
+                        win = "\033[32mWin\033[0m"
+                        loss = "\033[31mLoss\033[0m"
                         for game in stats_games_played:
+                            points = '\033[33m' + str(game[4]) + '\033[0m'
                             print(
-                                f'| {game[1]} | {game[2]} seconds | {"Win" if game[3] == 1 else "N/A" if game[3] == 3 else "Loss"} | {game[4]} points|'
+                                f'| {game[1]} | {game[2]} seconds | {win if game[3] == 1 else "N/A" if game[3] == 3 else loss} | {points} points|'
                             )
                         print("\nPress enter to continue")
                         input(">")
@@ -45,7 +49,9 @@ def show_stats(user):
                 if stats_games_played:
                     clear()
                     best_game = Database.best_game(name)
+                    win = "\033[32mWin\033[0m"
+                    loss = "\033[31mLoss\033[0m"
                     print("Here is your best game")
-                    print(f'| {best_game[0]} | {best_game[1]} seconds | {"Win" if best_game[2] == 1 else "Loss"} | {best_game[3]} points|')
+                    print(f'| {best_game[0]} | {best_game[1]} seconds | {win if best_game[2] == 1 else loss} | {best_game[3]} points|')
                     print("\nPress enter to continue")
                     input(">")
