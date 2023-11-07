@@ -4,20 +4,12 @@ from wordle.player import Player
 import curses
 import time
 
-def start_minesweeper():
-    is_playing = False
-    user = None
-    user_name = input("Please enter a username between 1-10 letters: ")
-    try:
-        user = Player(user_name)
-        is_playing = True
-    except Exception as e:
-        print(e)
+def start_minesweeper(user):
     print("1. Beginner | 9 x 9 | 10 Mines")
     print("2. Intermediate | 16 x 16 | 40 Mines")
     print("3. Advanced |16 x 30 | 99 Mines")
     difficulty = input("Please select a difficulty to start the game: ")
-    curses.wrapper(lambda stdscr: minesweeper(stdscr, user, is_playing, difficulty))
+    curses.wrapper(lambda stdscr: minesweeper(stdscr, user, True, difficulty))
     
 def minesweeper(stdscr, user, is_playing, difficulty):
     curses.start_color()

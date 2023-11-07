@@ -10,23 +10,8 @@ import re
 
 # Function that asks for user name when is_playing is False and
 #   shows the game when is_playing is True
-def start_wordle():
-    is_playing = False
-    user = None
-    while not user:
-        clear()
-        user_name = input("Please enter a username between 1-10 letters: ")
-        try:
-            if(Database.insert_player(user_name)):
-                user = Player(user_name)
-            else:
-                print("Player with that username was found, logging in...")
-                time.sleep(1)
-                user = Player(user_name)
-            is_playing = True
-        except Exception as e:
-            print(e)
-    curses.wrapper(lambda x: wordle(x, user, is_playing))
+def start_wordle(user):
+    curses.wrapper(lambda x: wordle(x, user, True))
 
 
 #!main game loop:

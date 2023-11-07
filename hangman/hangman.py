@@ -26,23 +26,9 @@ def draw_hangman(stdscr, attempts):
         stdscr.addstr(i, 30, line)
 
 #Start game func
-def start_hangman():
+def start_hangman(user):
     clear()
-    is_playing = False
-    user = None
-    while not user:
-        user_name = input("Please enter a username between 1-10 letters: ")
-        try:
-            if(Database.insert_player(user_name)):
-                user = Player(user_name)
-            else:
-                print("Player with that username was found, logging in...")
-                time.sleep(1)
-                user = Player(user_name)
-            is_playing = True
-        except Exception as e:
-            print(e)
-    curses.wrapper(lambda x: hangman(x, user, is_playing))
+    curses.wrapper(lambda x: hangman(x, user, True))
 
 # Function to initialize and run the game
 def hangman(stdscr,user,is_playing):
