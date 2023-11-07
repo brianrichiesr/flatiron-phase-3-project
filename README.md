@@ -179,3 +179,4 @@ Happy coding!
 - [Dracos](https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93)
 
 https://github.com/Xethron/Hangman/blob/master/words.txt
+- [Free Dictionary Api](https://dictionaryapi.dev/)

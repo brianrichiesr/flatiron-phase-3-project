@@ -4,6 +4,7 @@ from wordle.wordle import start_wordle
 from minesweeper.minesweeper import start_minesweeper
 from gamestats.stats import show_stats
 from hangman.hangman import start_hangman
+from anagrams.anagrams import start_anagrams
 
 # Print the menu of options when the user starts up the app
 def main():
@@ -12,7 +13,6 @@ def main():
         clear()
         print("1. Play Wordle")
         print("2. Play Minesweeper")
-     
         print("3. Play Hangman")
         print("4. Play Anagrams")
         print("17. View Stats")
@@ -25,7 +25,7 @@ def main():
         elif choice == "3":
             start_hangman()
         elif choice == "4":
-            start_minesweeper()
+            start_anagrams()
         elif choice == "17":
             show_stats()
         elif choice == "18":
