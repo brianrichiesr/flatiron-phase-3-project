@@ -2,16 +2,10 @@ import curses
 import random
 import time
 import sys
+from clear_screen import clear
 sys.path.append(".")
 from wordle.player import Player
 from database.orm import Database
-
-# List of words to choose from
-word_list = ["hangman", "python", "curses", "game", "coding", "challenge"]
-
-# Function to choose a random word from the list
-def choose_word():
-    return random.choice(word_list)
 
 # Function to draw the hangman figure
 def draw_hangman(stdscr, attempts):
@@ -32,6 +26,7 @@ def draw_hangman(stdscr, attempts):
 
 #Start game func
 def start_hangman():
+    clear()
     is_playing = False
     user = None
     while not user:
@@ -50,11 +45,15 @@ def start_hangman():
 
 # Function to initialize and run the game
 def hangman(stdscr,user,is_playing):
+    #Clear screen
     stdscr.clear()
     stdscr.refresh()
 
+    #init timer
+    start_time = time.time()
+
     #Get random word and uppercase for game
-    word = choose_word().upper()
+    word = Database.get_random_hangman_word()[1].upper()
     #Initialize array full of underscores because word starts blank
     word_display = ["_" for _ in word]
     #Guessed letters in a set because they cant be repeated
@@ -63,7 +62,7 @@ def hangman(stdscr,user,is_playing):
     attempts = 6
 
     #Main game loop
-    while True:
+    while is_playing:
         stdscr.clear()
 
         # Drwaw the hangman
@@ -98,16 +97,27 @@ def hangman(stdscr,user,is_playing):
 
         # Check for a win
         if "_" not in word_display:
+            final_score = max(100 - (6 - attempts) * 10, 0)
+            end_time = time.time()
             stdscr.clear()
             stdscr.addstr(0, 0, "Congratulations! You guessed the word.")
+            Database.insert_game(("Hangman",round(end_time - start_time,2),1,final_score,Database.get_player(user.username)[0]))
             stdscr.refresh()
+            time.sleep(2)
+            is_playing = False
+            stdscr.clear()
             break
 
         # Check for a loss
         if attempts == 0:
+            final_score = max(60 - (6 - attempts) * 10, 0)
+            end_time = time.time()
             stdscr.clear()
             stdscr.addstr(0, 0,f"You lost. The word was: {word}")
+            Database.insert_game(("Hangman",round(end_time - start_time,2),0,final_score,Database.get_player(user.username)[0]))
             stdscr.refresh()
+            time.sleep(2)
+            is_playing = False
+            stdscr.clear()
             break
 
-    stdscr.getch()
