@@ -75,7 +75,7 @@ def hangman(stdscr,user,is_playing):
                 return False
             return True
         
-        if alpha(chr(user_input).upper()):
+        if user_input != -1 and alpha(chr(user_input).upper()):
             letter = chr(user_input).upper()
             guessed_letters.add(letter)
 
