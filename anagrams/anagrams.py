@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 import requests
 import time
-import curses
 from clear_screen import clear
+from database.orm import Database
 from random import randint
 import math
 
 
 
 # Print the menu of options when the user starts up the app
-def start_anagrams():
+def start_anagrams(user):
 
     user_guesses = []
     vowels = "aeiou"
@@ -79,6 +79,7 @@ def start_anagrams():
                 score += (len(item) * 25)
 
             print(f"Your total score was {score}")
+            Database.insert_game(("Anagrams",round(end_time - start_time,2),3,score,Database.get_player(user.username)[0]))
             time.sleep(4)
     
     play_game()
