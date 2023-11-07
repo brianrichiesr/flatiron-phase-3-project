@@ -10,9 +10,13 @@ class MinesweeperGame:
         self.rows = rows
         self.cols = cols
         self.mines = mines
-        self.board = self.create_board()
+        self.visible_board = self.create_board()
+        self.hidden_board = self.create_board()
         type(self).all.append(self)
         self.set_mines()
+        self.calculate_neighbor_numbers()
+
+        self.tiles = set()
 
         # Initialize the curses window
         self.stdscr = curses.initscr()
@@ -39,8 +43,6 @@ class MinesweeperGame:
     def rows(self, rows):
         if not isinstance(rows, int):
             raise TypeError("Number of rows must be an integer")
-        # elif not 8 <= rows <= 30:
-        #     raise ValueError("Number of rows must be between 8 and 30, inclusive")
         else:
             self._rows = rows
 
@@ -52,8 +54,6 @@ class MinesweeperGame:
     def cols(self, cols):
         if not isinstance(cols, int):
             raise TypeError("Number of cols must be an integer")
-        # elif not 8 <= cols <= 16:
-        #     raise ValueError("Number of cols must be between 8 and 30, inclusive")
         else:
             self._cols = cols
     
@@ -69,7 +69,7 @@ class MinesweeperGame:
             self._mines = mines
 
     def create_board(self):
-        board = [['X' for _ in range(self.cols)] for _ in range(self.rows)]
+        board = [[' ' for _ in range(self.cols)] for _ in range(self.rows)]
         return board
     
     def set_mines(self):
@@ -80,25 +80,79 @@ class MinesweeperGame:
             mine_positions.add((random_row, random_col))
 
         for (row, col) in mine_positions:
-            self.board[row][col] = 'B'
+            self.visible_board[row][col] = ' '
+            self.hidden_board[row][col] = 'B'
 
+    def calculate_neighbor_numbers(self):
+        # Each neighbor for reference
+        # Top Left: row - 1, col - 1
+        # Top Middle: row - 1, col
+        # Top Right: row - 1, col + 1
+        # Middle Left: row, col - 1
+        # Middle Middle: row, col
+        # Middle Right: row, col + 1
+        # Bottom Left: row + 1, col - 1
+        # Bottom Middle: row + 1, col
+        # Bottom Right: row + 1, col + 1
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if self.hidden_board[r][c] == ' ':
+                    bomb_count = 0
+                    for row in range(r - 1, r + 2):
+                        for col in range(c - 1, c + 2):
+                            if 0 <= row < self.rows and 0 <= col < self.cols and self.hidden_board[row][col] == 'B':
+                                bomb_count += 1
+                    if bomb_count > 0:
+                        self.hidden_board[r][c] = str(bomb_count)
+
+    def reveal_blanks(self, row, col):
+        if not (0 <= row < self.rows) or not (0 <= col < self.cols):
+            return
+        if self.visible_board[row][col] != ' ':
+            return 
+        self.visible_board[row][col] = 'O'
+        for r in range(row - 1, row + 2):
+            for c in range(col - 1, col + 2):
+                if 0 <= r < self.rows and 0 <= c < self.cols:
+                    if self.hidden_board[r][c] == 'B':
+                        continue
+                    if self.hidden_board[r][c] == ' ':
+                        self.reveal_blanks(r, c)
+                    else:
+                        self.visible_board[r][c] = self.hidden_board[r][c]
+        
     
     def render(self):
+        for row in range(self.rows + 2):
+            for col in range((2 * self.cols) + 2):
+                # TOP AND BOTTOM BORDERS
+                if row == 0 or row == self.rows + 1:
+                    self.stdscr.addch(row, col, '-')
+                # SIDE BORDERS
+                elif (col == 0 and (row != 0 or row != self.rows + 1)) or (col == (2 * self.cols) + 1 and (row != 0 or row != self.rows + 1)):
+                    self.stdscr.addch(row, col, '|')
         for row in range(self.rows):
             for col in range(self.cols):
-                self.stdscr.addch(row, 2 * col, self.board[row][col])
+                # ADD BOARD
+                self.stdscr.addch(row + 1, (2 * col) + 1, self.visible_board[row][col])
         self.stdscr.refresh()
 
     def handle_mouse_click(self, x, y):
-        if 0 <= x < 2 * self.cols and 0 <= y < self.rows:
+        # is_playing = True
+        if 0 <= x < 2 * self.cols and 0 <= y < self.rows + 1:
             col = x // 2
-            if self.board[y][col] == 'X':
-                self.board[y][col] = 'O'
-                self.render()
+            self.tiles.add((y - 1, col))
+            if self.hidden_board[y - 1][col] == 'B':
+                # is_playing = False
+                # pass
+                self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
+                self.stdscr.refresh()
+            elif self.hidden_board[y - 1][col] == ' ':
+                self.reveal_blanks(y - 1, col)
+                self.stdscr.refresh()
+            else:
+                self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
+                self.stdscr.refresh()
+                
 
-
-
-    
-    
-    
     
