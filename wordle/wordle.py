@@ -3,6 +3,7 @@ from .wordle_game import WordleGame
 from .player import Player
 from wordle.colors import *
 from database.orm import Database
+from clear_screen import clear
 import curses
 import time
 
@@ -12,6 +13,7 @@ def start_wordle():
     is_playing = False
     user = None
     while not user:
+        clear()
         user_name = input("Please enter a username between 1-10 letters: ")
         try:
             if(Database.insert_player(user_name)):
@@ -42,7 +44,8 @@ def wordle(stdscr, user, is_playing):
     idx = 0
     stdscr.clear()
     stdscr.refresh()
-
+    stdscr.addstr(0,0,"Type a word to start and press enter to guess")
+    stdscr.refresh()
     # Function that will iterate through all the user's guess in current game
     #   and print them on the screen with the correct colors
     def print_all_guesses():
