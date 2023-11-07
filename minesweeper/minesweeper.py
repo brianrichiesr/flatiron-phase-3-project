@@ -1,16 +1,11 @@
 # #!/usr/bin/env python
 from .minesweeper_game import MinesweeperGame
 from wordle.player import Player
+from clear_screen import clear
 import curses
 import time
 
-def start_minesweeper():
-    # user = None
-    # user_name = input("Please enter a username between 1-10 letters: ")
-    # try:
-    #     user = Player(user_name)
-    # except Exception as e:
-    #     print(e)
+def start_minesweeper(user):
     print("1. Beginner | 9 x 9 | 10 Mines")
     print("2. Intermediate | 16 x 16 | 40 Mines")
     print("3. Advanced |16 x 30 | 99 Mines")
