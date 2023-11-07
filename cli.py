@@ -5,6 +5,7 @@ from minesweeper.minesweeper import start_minesweeper
 from gamestats.stats import show_stats
 from hangman.hangman import start_hangman
 from anagrams.anagrams import start_anagrams
+from typeracer.typeracer import start_typeracer
 from wordle.player import Player
 from database.orm import Database
 import time
@@ -29,6 +30,7 @@ def main():
         print("2. Play Minesweeper")
         print("3. Play Hangman")
         print("4. Play Anagrams")
+        print("5. Play Typeracer")
         print("17. View Stats")
         print("18. Exit program")
         choice = input("> ")
@@ -40,6 +42,8 @@ def main():
             start_hangman(user)
         elif choice == "4":
             start_anagrams(user)
+        elif choice == "5":
+            start_typeracer()
         elif choice == "17":
             show_stats(user)
         elif choice == "18":
