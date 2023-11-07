@@ -107,35 +107,22 @@ class MinesweeperGame:
         
     
     def render(self):
-        # TOP AND BOTTOM BORDERS
-        for row in [0, self.rows + 1]:
-            for col in range((2 * self.cols) + 3):
-                self.stdscr.addch(row, col, '-')
-        # SIDE BORDERS
-        for row in range(1, self.rows + 1):
-            for col in [0, (2 * self.cols) + 2]:
-                self.stdscr.addch(row, col, '|')
-        # # GAME BOARD
-        # for row in range(1, self.rows + 1):
-        #     for col in range(1, (2 * self.cols) + 1):
-        #         self.stdscr.addch(row, 2 * col, self.board[row][col])
-        # for row in range(self.rows + 2):
-        #     for col in range((2 * self.cols) + 2):
-        #         if row == 0 or row == 10:
-        #             self.stdscr.addch(row, col, '-')
-        #         elif (col == 0 and (row != 0 or row != 10)) or (col == 19 and (row != 0 or row != 10)):
-        #             self.stdscr.addch(row, col, '|')
-        #         elif col % 2:
-        #             self.stdscr.addch(row, col, self.board[row][col // 2])
-                # else:
-                #     self.stdscr.addch(row, col, ' ')
+        for row in range(self.rows + 2):
+            for col in range((2 * self.cols) + 2):
+                if row == 0 or row == self.rows + 1:
+                    self.stdscr.addch(row, col, '-')
+                elif (col == 0 and (row != 0 or row != self.rows + 1)) or (col == (2 * self.cols) + 1 and (row != 0 or row != self.rows + 1)):
+                    self.stdscr.addch(row, col, '|')
+        for row in range(self.rows):
+            for col in range(self.cols):
+                self.stdscr.addch(row + 1, (2 * col) + 1, self.board[row][col])
         self.stdscr.refresh()
 
     def handle_mouse_click(self, x, y):
         if 0 <= x < 2 * self.cols and 0 <= y < self.rows:
             col = x // 2
-            if self.board[y][col] == 'X':
-                self.board[y][col] = 'O'
+            if self.board[y - 1][col] == 'X':
+                self.board[y - 1][col] = 'O'
                 self.render()
 
 
