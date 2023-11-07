@@ -21,7 +21,7 @@ class Database:
     @classmethod
     def get_player_games(cls,name):
         with connection:
-            return cursor.execute("SELECT games_played.* FROM players JOIN games_played ON players.id = games_played.player_id WHERE name = ? COLLATE NOCASE",(name,)).fetchall()
+            return cursor.execute("SELECT games_played.* FROM players JOIN games_played ON players.id = games_played.player_id WHERE name = ? COLLATE NOCASE ORDER BY games_played.game_name",(name,)).fetchall()
 
     @classmethod
     def is_valid_word(cls,word):
