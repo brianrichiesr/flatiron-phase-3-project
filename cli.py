@@ -43,7 +43,7 @@ def main():
         elif choice == "4":
             start_anagrams(user)
         elif choice == "5":
-            start_typeracer()
+            start_typeracer(user)
         elif choice == "17":
             show_stats(user)
         elif choice == "18":
