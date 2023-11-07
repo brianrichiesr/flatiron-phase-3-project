@@ -1,22 +1,24 @@
 from wordle.player import Player
 import curses
 import random
+import time
 
 class MinesweeperGame:
     all = []
 
-    def __init__(self, player, rows, cols, mines):
-        self.player = player
+    def __init__(self, rows, cols, mines):
+        # self.player = player
         self.rows = rows
         self.cols = cols
         self.mines = mines
         self.visible_board = self.create_board()
         self.hidden_board = self.create_board()
+        self.is_playing = "playing"
         type(self).all.append(self)
-        self.set_mines()
-        self.calculate_neighbor_numbers()
-
+        # self.set_mines(first_row, first_col)
+        # self.calculate_neighbor_numbers()
         self.tiles = set()
+        self.first_click = True
 
         # Initialize the curses window
         self.stdscr = curses.initscr()
@@ -24,16 +26,16 @@ class MinesweeperGame:
         self.stdscr.keypad(1)
         self.stdscr.refresh()
     
-    @property
-    def player(self):
-        return self._player
+    # @property
+    # def player(self):
+    #     return self._player
     
-    @player.setter
-    def player(self, player):
-        if not isinstance(player, Player):
-            raise TypeError("Player must be a Player")
-        else:
-            self._player = player
+    # @player.setter
+    # def player(self, player):
+    #     if not isinstance(player, Player):
+    #         raise TypeError("Player must be a Player")
+    #     else:
+    #         self._player = player
 
     @property
     def rows(self):
@@ -72,12 +74,23 @@ class MinesweeperGame:
         board = [[' ' for _ in range(self.cols)] for _ in range(self.rows)]
         return board
     
-    def set_mines(self):
+    def set_mines(self, first_row, first_col):
         mine_positions = set()
         while len(mine_positions) < self.mines:
             random_row = random.randint(0, self.rows - 1)
             random_col = random.randint(0, self.cols - 1)
+            if self.first_click and (random_row, random_col) == (first_row, first_col):
+                continue
             mine_positions.add((random_row, random_col))
+
+        if (first_row, first_col) in mine_positions:
+            mine_positions.remove((first_row, first_col))
+            while True:
+                new_random_row = random.randint(0, self.rows - 1)
+                new_random_col = random.randint(0, self.cols - 1)
+                if (new_random_row, new_random_col) not in mine_positions:
+                    mine_positions.add((new_random_row, new_random_col))
+                    break
 
         for (row, col) in mine_positions:
             self.visible_board[row][col] = ' '
@@ -120,7 +133,35 @@ class MinesweeperGame:
                         self.reveal_blanks(r, c)
                     else:
                         self.visible_board[r][c] = self.hidden_board[r][c]
-        
+
+    def reveal_all_mines(self):
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if self.hidden_board[row][col] == 'B':
+                    self.visible_board[row][col] = 'B'
+    
+    def check_win(self):
+        numbers_found = 0
+        total_numbers = 0
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if self.hidden_board[row][col].isdigit():
+                    total_numbers += 1
+                if self.visible_board[row][col].isdigit():
+                    numbers_found += 1
+        if total_numbers == numbers_found and total_numbers > 0:
+            return True
+        else:
+            return False
+
+    def final_message(self, message):
+        self.stdscr.clear()
+        self.stdscr.addstr(f"{message}")
+        self.stdscr.refresh()
+        time.sleep(3.0)
+        self.stdscr.clear()
+        self.stdscr.refresh()
+        self.is_playing = False
     
     def render(self):
         for row in range(self.rows + 2):
@@ -138,20 +179,21 @@ class MinesweeperGame:
         self.stdscr.refresh()
 
     def handle_mouse_click(self, x, y):
-        # is_playing = True
         if 0 <= x < 2 * self.cols and 0 <= y < self.rows + 1:
             col = x // 2
             self.tiles.add((y - 1, col))
             if self.hidden_board[y - 1][col] == 'B':
-                # is_playing = False
-                # pass
-                self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
-                self.stdscr.refresh()
+                self.reveal_all_mines()
+                self.render()
+                self.is_playing = "lose"
+                time.sleep(2.0)
             elif self.hidden_board[y - 1][col] == ' ':
                 self.reveal_blanks(y - 1, col)
                 self.stdscr.refresh()
             else:
                 self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
+                if self.check_win():
+                    self.is_playing = "win"
                 self.stdscr.refresh()
                 
 
