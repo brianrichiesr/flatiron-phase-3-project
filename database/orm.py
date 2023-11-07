@@ -34,6 +34,11 @@ class Database:
         return all_words[random.randint(0,len(all_words))]
     
     @classmethod
+    def get_random_hangman_word(cls):
+        all_words = cursor.execute("SELECT * FROM hangman_words").fetchall()
+        return all_words[random.randint(0,len(all_words))]
+    
+    @classmethod
     def insert_player(cls,name):
         with connection:
             playerExists = cursor.execute("SELECT * FROM players WHERE name = ? COLLATE NOCASE",(name,)).fetchone()
@@ -45,11 +50,13 @@ class Database:
                 return False
             
     @classmethod
-    def insert_wordle_game(cls,game_tuple):
+    def insert_game(cls,game_tuple):
          #!Game tuple should be a tuple with arguments (game_name,time_played,player_id)
          with connection:
             cursor.execute("INSERT INTO games_played (game_name,time_played,win,score,player_id) VALUES (?,?,?,?,?)",game_tuple)
             connection.commit()
+
+    
     
     @classmethod
     def best_game(cls,name):

@@ -50,7 +50,7 @@ def show_stats():
                         best_game = Database.best_game(name)
                         print("Here is your best game")
                         print(f'| {best_game[0]} | {best_game[1]} seconds | {"Win" if best_game[2] == 1 else "Loss"} | {best_game[3]} points|')
-                        print("\nPress enter to go continue")
+                        print("\nPress enter to continue")
                         input(">")
         else:
             if inp == "q":

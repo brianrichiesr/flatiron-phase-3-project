@@ -4,6 +4,7 @@ import random
 sys.path.append('.')
 from wordle.valid_words import valid_words
 from wordle.all_words import all_words
+from hangman.hangman_words import hangman_words
 connection = sqlite3.connect("database/database.db")
 cursor = connection.cursor()
 
@@ -13,13 +14,20 @@ def seed(delete=None,extra=None):
     #! Delete tables if they exist, recreate them for fresh data
     with connection:
         if delete and extra == "Yes":
-            tables = ['players','words','valid_words','games_played']
+            tables = ['players','words','valid_words','hangman_words','games_played']
             for table in tables:
                 cursor.execute(f'''DROP TABLE IF EXISTS {table}''')
                 connection.commit()
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS words (
+            id INTEGER PRIMARY KEY,
+            word TEXT UNIQUE NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS hangman_words (
             id INTEGER PRIMARY KEY,
             word TEXT UNIQUE NOT NULL
             );
@@ -74,6 +82,17 @@ def seed(delete=None,extra=None):
     result = cursor.execute("SELECT * FROM words").fetchall()
     connection.commit()
     print(f"Populated valid words, len: {len(result)}")
+
+     #!Seeding test for all possible wordle guesses
+    words = hangman_words
+
+    with connection:
+        for word in words:
+            cursor.execute("INSERT OR IGNORE INTO hangman_words (word) VALUES (?)",(word,))
+
+    result = cursor.execute("SELECT * FROM hangman_words").fetchall()
+    connection.commit()
+    print(f"Populated hangman words, len: {len(result)}")
 
 
     #!Seeding test for all possible wordle solutions (Easier to guess than all possible words)
