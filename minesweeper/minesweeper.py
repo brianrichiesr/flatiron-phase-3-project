@@ -2,7 +2,7 @@
 from .minesweeper_game import MinesweeperGame
 from wordle.player import Player
 import curses
-# import time
+import time
 
 def start_minesweeper():
     is_playing = False
@@ -52,4 +52,10 @@ def minesweeper(stdscr, user, is_playing, difficulty):
         elif key == curses.KEY_MOUSE:
             _, x, y, _, _ = curses.getmouse()
             new_game.handle_mouse_click(x, y)
-        
+
+    # if not is_playing:
+    #     stdscr.clear()
+    #     stdscr.addstr(0, 0, "Game over. You clicked on a bomb.")
+    #     stdscr.refresh()
+    #     time.sleep(3.0)
+
