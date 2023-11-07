@@ -1,182 +1,93 @@
-# Phase 3 CLI+ORM Project Template
-
-## Learning Goals
-
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
-
----
-
-## Introduction
-
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
-
-Take a look at the directory structure:
-
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
-```
-
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
-
----
-
-## Generating Your Environment
-
-You might have noticed in the file structure- there's already a Pipfile!
-
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
-
-```console
-pipenv install
-pipenv shell
-```
-
----
-
-## Generating Your CLI
-
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
-
-The project template has a sample CLI in `lib/cli.py` that looks like this:
-
-```py
-# lib/cli.py
-
-from helpers import (
-    exit_program,
-    helper_1
-)
+# Table 4 Phase 3 Project
 
 
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
+## Home
+
+* [Dependencies](#dependencies)
+* [Starting the Application](#starting-the-application)
+* [Using the Application](#using-the-application)
+* [Optional Features](#optional-features)
+* [License](#license)
+* [Attributions](#attributions)
+* [What I Learned](#what-i-learned)
 
 
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
+## Intro To Project
+
+- This is a project where a user can play various games in their terminal.
+- This project was made to complete the assignment `Phase 3 Project` for the `SE-West-091123` class for the [Flatiron](https://flatironschool.com/) Software Engineering Boot Camp.
+- The project was completed using the following: `python`, `sqlite3`.
 
 
-if __name__ == "__main__":
-    main()
-```
+## Dependencies
 
-The helper functions are located in `lib/helpers.py`:
+- The following is needed to run this application: `pyenv`, `python`, `sqlite3`.
 
-```py
-# lib/helpers.py
+- You must have access to these dependencies in the directory that you are running this application in. If your environment does not have these requirements, you may install them in this order by going to these websites and following the installation instructions:
 
-def helper_1():
-    print("Performing useful function#1.")
+- [pyenv](https://realpython.com/intro-to-pyenv/#installing-pyenv)
+
+- [python](https://www.python.org/)
+
+- `sqlite3` should come standard on the `macOS`. You can check by typing `which sqlite3` in the terminal. If you do not see a response like `/usr/bin/sqlite3` then you probably need to install it. Go here to do so [codecademy - install sqlite on mac](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-mac)
+
+- To install `sqlite3` on a `windows` machine, go here [codecademy - install sqlite on windows](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-windows)
 
 
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
+## Starting the Application
 
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
+- Open a terminal window in the main directory of where this project is located on your computer.
+- Run `pipenv install`.
+- Then run `./cli.py`
+- It should take you to the main menu of this app that looks like this:
+- ==============================================
+    ![Login page of app.](./images/login.png "Login Page")
+- ==============================================
+- It should take you to the main menu of this app that looks like this:
+- ==============================================
+    ![Home page of app.](./images/menu.png "Home Page")
+- ==============================================
 
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
 
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
+## Using the Application
 
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
+- The user can scroll through the list of cards the app sells. The user can display a card in the card section located on the right side of the page by clicking on the card desired.
+- The user can also display a card by typing a card name in the search bar located in the top right area of the page. There is also functionality to bring up possible options for the user to choose from as the user types in names. The options are located in a dropdown right under the search bar that appears when the user starts typing.
+- When the card is displayed, the user will be shown more detailed information about the card and be given the option to add the card to the user's cart, if the card is in stock. If the user adds a card to the cart, the quantity of that card will be updated on the page.
+- The user can access their cart by clicking the cart icon located in the top right of the page. When the user does so, a modal pops up on the page that displays some information about the user and keeps a running total of the items the user clicked on.
+- At the bottom of the modal is a submit button that will create a document of the order and store it in the database. When the user completes an order, the inventory in the database will be updated.
 
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
 
-- User interface
-- Data persistence
-- Problem domain rules and logic
+## Optional Features
 
----
+- The user can adjust the order in which the cards are listed by selecting the different options located at the top of every column. For example, the user can click on the 'Name' option and sort the list alphabetically or the reverse.
+- The user can switch the color theme of the app by clicking the moon located in the top right area of the page, to the right of the search bar.
+- It should look like this:
+- ==============================================
+    <!-- ![Home page of app.](./assets/dark-index.png "Home Page") -->
+- ==============================================
 
-## Updating README.md
 
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
+## License
 
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
-
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+- This project is is made in conjunction with the standard `MIT` license provided by `GitHub` upon creation of a new repository. A copy of the license is included with this project in a file named: `LICENSE`.
 
 
 ## Attributions
 
-- [Array_This](https://arraythis.com/)
+- The project was completed with collaboration from: `Danner Baumgartner`, `Isaac Song`, and `Brian Richie Sr.`
+- This project was created with combination of skills learned from the `Flatiron` curriculum and our own individual research.
+- The data used to seed the original data prior to being modified for the purposes of this project was supplied by [Dracos](https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93) created by `M Somerville`. The data consisted of an expansive file of 5-letter words for our version of [Wordle](https://en.wikipedia.org/wiki/Wordle) created by `Josh Wardle`.
+- We used [Array_This](https://arraythis.com/) created by `populu` to convert the data in an iterable list to easily store each word in our database.
+- We used [Free Dictionary Api](https://dictionaryapi.dev/) created by [Suraj (github handle - meetDeveloper)](https://github.com/meetDeveloper) to check the validity of each word entered by the user in the `Anagrams` game.
+- We used [Hangman](https://github.com/Xethron/Hangman/blob/master/words.txt) created by [Bernhard Breytenbach (github handle - Xethron)](https://github.com/Xethron) to seed the database with Hangman words and phrases
+- And of course, thank you [Stack Overflow](https://stackoverflow.com/).
 
-- [Dracos](https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93)
+## What I Learned
 
-https://github.com/Xethron/Hangman/blob/master/words.txt
-- [Free Dictionary Api](https://dictionaryapi.dev/)
+- `Danner`: Lorem Ipsum
+- `Isaac`: Lorem Ipsum
+- `Brian`: I learned a lot more about the versatility of `Python` in its ability to interface with `SQL` databases and the terminal directly. I can see the potential of combining `Python` with a front-end langauge to make some incredible apps. The team was great. We collaborated well and were very supportive of each other's struggles with completing this project. We also inspired one another's creativity throughout this process. Thank you Danner, Isaac, and the `Flatiron` community.
+
+
+* [Back To Top](#table-4-phase-3-project)
