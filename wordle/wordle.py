@@ -6,6 +6,7 @@ from database.orm import Database
 from clear_screen import clear
 import curses
 import time
+import re
 
 # Function that asks for user name when is_playing is False and
 #   shows the game when is_playing is True
@@ -54,6 +55,12 @@ def wordle(stdscr, user, is_playing):
             print_colored_word(stdscr,guess,new_game.solution.solution)
             stdscr.addch('\n')
 
+    regex = re.compile(r"[^a-zA-Z]")
+
+    def alpha(string):
+        if regex.search(string):
+            return False
+        return True
     # During while loop iteration, which will constantly run while is_playing
     #   is True, allow user to play game
     while is_playing:
@@ -67,7 +74,7 @@ def wordle(stdscr, user, is_playing):
                 user_guess = user_guess[:-1]
 
             # If user_guess length is less than 5
-            elif len(user_guess) < 5 and chr(key).isalpha():  
+            elif len(user_guess) < 5 and alpha(chr(key)):  
                 # Add current key value in uppercase to user_guess
                 user_guess += chr(key).upper()
                 
