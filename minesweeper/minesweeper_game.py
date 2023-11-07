@@ -105,7 +105,22 @@ class MinesweeperGame:
                     if bomb_count > 0:
                         self.hidden_board[r][c] = str(bomb_count)
 
-    
+    def reveal_blanks(self, row, col):
+        if not (0 <= row < self.rows) or not (0 <= col < self.cols):
+            return
+        if self.visible_board[row][col] != ' ':
+            return 
+        self.visible_board[row][col] = 'O'
+        for r in range(row - 1, row + 2):
+            for c in range(col - 1, col + 2):
+                if 0 <= r < self.rows and 0 <= c < self.cols:
+                    if self.hidden_board[r][c] == 'B':
+                        continue
+                    if self.hidden_board[r][c] == ' ':
+                        self.reveal_blanks(r, c)
+                    else:
+                        self.visible_board[r][c] = self.hidden_board[r][c]
+        
     
     def render(self):
         for row in range(self.rows + 2):
@@ -132,11 +147,12 @@ class MinesweeperGame:
                 # pass
                 self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
                 self.stdscr.refresh()
-            elif self.hidden_board[y - 1][col]:
-                self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
+            elif self.hidden_board[y - 1][col] == ' ':
+                self.reveal_blanks(y - 1, col)
                 self.stdscr.refresh()
             else:
                 self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
                 self.stdscr.refresh()
+                
 
     
