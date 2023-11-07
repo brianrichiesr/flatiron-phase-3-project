@@ -2,6 +2,7 @@ import curses
 import random
 import time
 import sys
+import re
 from clear_screen import clear
 sys.path.append(".")
 from wordle.player import Player
@@ -81,43 +82,50 @@ def hangman(stdscr,user,is_playing):
         stdscr.refresh()
         #Get user input
         user_input = stdscr.getch()
+        regex = re.compile(r"[^a-zA-Z]")
 
-        letter = chr(user_input).upper()
-        guessed_letters.add(letter)
+        def alpha(string):
+            if regex.search(string):
+                return False
+            return True
+        
+        if alpha(chr(user_input).upper()):
+            letter = chr(user_input).upper()
+            guessed_letters.add(letter)
 
-        #If letter is in word
-        if letter in word:
-            for i, char in enumerate(word):
-                #Loop through index of word to find matching letter, and update from underscore to letter that was guessed, eg _ to A
-                if char == letter:
-                    word_display[i] = letter
-        else:
-            #If wrong, attempts goes down by 1
-            attempts -= 1
+            #If letter is in word
+            if letter in word:
+                for i, char in enumerate(word):
+                    #Loop through index of word to find matching letter, and update from underscore to letter that was guessed, eg _ to A
+                    if char == letter:
+                        word_display[i] = letter
+            else:
+                #If wrong, attempts goes down by 1
+                attempts -= 1
 
-        # Check for a win
-        if "_" not in word_display:
-            final_score = max(100 - (6 - attempts) * 10, 0)
-            end_time = time.time()
-            stdscr.clear()
-            stdscr.addstr(0, 0, "Congratulations! You guessed the word.")
-            Database.insert_game(("Hangman",round(end_time - start_time,2),1,final_score,Database.get_player(user.username)[0]))
-            stdscr.refresh()
-            time.sleep(2)
-            is_playing = False
-            stdscr.clear()
-            break
+            # Check for a win
+            if "_" not in word_display:
+                final_score = max(100 - (6 - attempts) * 10, 0)
+                end_time = time.time()
+                stdscr.clear()
+                stdscr.addstr(0, 0, "Congratulations! You guessed the word.")
+                Database.insert_game(("Hangman",round(end_time - start_time,2),1,final_score,Database.get_player(user.username)[0]))
+                stdscr.refresh()
+                time.sleep(2)
+                is_playing = False
+                stdscr.clear()
+                break
 
-        # Check for a loss
-        if attempts == 0:
-            final_score = max(60 - (6 - attempts) * 10, 0)
-            end_time = time.time()
-            stdscr.clear()
-            stdscr.addstr(0, 0,f"You lost. The word was: {word}")
-            Database.insert_game(("Hangman",round(end_time - start_time,2),0,final_score,Database.get_player(user.username)[0]))
-            stdscr.refresh()
-            time.sleep(2)
-            is_playing = False
-            stdscr.clear()
-            break
+            # Check for a loss
+            if attempts == 0:
+                final_score = max(60 - (6 - attempts) * 10, 0)
+                end_time = time.time()
+                stdscr.clear()
+                stdscr.addstr(0, 0,f"You lost. The word was: {word}")
+                Database.insert_game(("Hangman",round(end_time - start_time,2),0,final_score,Database.get_player(user.username)[0]))
+                stdscr.refresh()
+                time.sleep(2)
+                is_playing = False
+                stdscr.clear()
+                break
 
