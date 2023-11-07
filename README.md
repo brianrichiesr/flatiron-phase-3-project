@@ -43,7 +43,9 @@
 - ==============================================
     ![Login page of app.](./images/login.png "Login Page")
 - ==============================================
-- It should take you to the main menu of this app that looks like this:
+- If the name you type in exists in the player table of the database, the app will log you in as that player.
+- If the name does not exist, the app will create a new player in the database.
+- After logging in the app should take you to the main menu of this app that looks like this:
 - ==============================================
     ![Home page of app.](./images/menu.png "Home Page")
 - ==============================================
@@ -51,21 +53,17 @@
 
 ## Using the Application
 
-- The user can scroll through the list of cards the app sells. The user can display a card in the card section located on the right side of the page by clicking on the card desired.
-- The user can also display a card by typing a card name in the search bar located in the top right area of the page. There is also functionality to bring up possible options for the user to choose from as the user types in names. The options are located in a dropdown right under the search bar that appears when the user starts typing.
-- When the card is displayed, the user will be shown more detailed information about the card and be given the option to add the card to the user's cart, if the card is in stock. If the user adds a card to the cart, the quantity of that card will be updated on the page.
-- The user can access their cart by clicking the cart icon located in the top right of the page. When the user does so, a modal pops up on the page that displays some information about the user and keeps a running total of the items the user clicked on.
-- At the bottom of the modal is a submit button that will create a document of the order and store it in the database. When the user completes an order, the inventory in the database will be updated.
+- You can select any of the available options listed in the menu by selecting the appropriate number.
+- You can play any of the games or review table information associated with the player
 
 
-## Optional Features
+## Instructions
 
-- The user can adjust the order in which the cards are listed by selecting the different options located at the top of every column. For example, the user can click on the 'Name' option and sort the list alphabetically or the reverse.
-- The user can switch the color theme of the app by clicking the moon located in the top right area of the page, to the right of the search bar.
-- It should look like this:
-- ==============================================
-    <!-- ![Home page of app.](./assets/dark-index.png "Home Page") -->
-- ==============================================
+- [Wordle Guide](https://www.ign.com/wikis/wordle/Wordle_Beginner%E2%80%99s_Guide_and_Tips)
+- [How to play Minesweeper](https://www.howtogeek.com/how-to-play-minesweeper/)
+- [How to play Hangman](https://www.wikihow.com/Play-Hangman)
+- Instructions for `Anagrams`:
+    - You get a list of letters located at the top of the terminal. You have one minute to make as many words as you can out of the letters listed. You can only use a letter once for each time it appears in the list. For ex., if there is only one 's' in the list you cannot choose the word 'chess' as a valid answer. Answers must be at least 2 letters long. The longer the word the more points.
 
 
 ## License

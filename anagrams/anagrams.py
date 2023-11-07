@@ -77,6 +77,9 @@ def start_anagrams(user):
             score = 0
             for item in user_guesses:
                 score += (len(item) * 25)
+                if len(item) > 3:
+                    bonus = len(item) - 3
+                    score += ((bonus * bonus) * 50)
 
             print(f"Your total score was {score}")
             Database.insert_game(("Anagrams",round(end_time - start_time,2),3,score,Database.get_player(user.username)[0]))
