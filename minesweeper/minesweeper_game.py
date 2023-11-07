@@ -12,8 +12,8 @@ class MinesweeperGame:
         self.mines = mines
         self.board = self.create_board()
         type(self).all.append(self)
-        # self.set_mines()
-        # self.calculate_neighbor_numbers()
+        self.set_mines()
+        self.calculate_neighbor_numbers()
 
         # Initialize the curses window
         self.stdscr = curses.initscr()
@@ -109,17 +109,20 @@ class MinesweeperGame:
     def render(self):
         for row in range(self.rows + 2):
             for col in range((2 * self.cols) + 2):
+                # TOP AND BOTTOM BORDERS
                 if row == 0 or row == self.rows + 1:
                     self.stdscr.addch(row, col, '-')
+                # SIDE BORDERS
                 elif (col == 0 and (row != 0 or row != self.rows + 1)) or (col == (2 * self.cols) + 1 and (row != 0 or row != self.rows + 1)):
                     self.stdscr.addch(row, col, '|')
         for row in range(self.rows):
             for col in range(self.cols):
+                # ADD BOARD
                 self.stdscr.addch(row + 1, (2 * col) + 1, self.board[row][col])
         self.stdscr.refresh()
 
     def handle_mouse_click(self, x, y):
-        if 0 <= x < 2 * self.cols and 0 <= y < self.rows:
+        if 0 <= x < 2 * self.cols and 0 <= y < self.rows + 1:
             col = x // 2
             if self.board[y - 1][col] == 'X':
                 self.board[y - 1][col] = 'O'

@@ -15,7 +15,7 @@ def start_minesweeper():
         print(e)
     print("1. Beginner | 9 x 9 | 10 Mines")
     print("2. Intermediate | 16 x 16 | 40 Mines")
-    print("3. Advanced | 30 x 16 | 99 Mines")
+    print("3. Advanced |16 x 30 | 99 Mines")
     difficulty = input("Please select a difficulty to start the game: ")
     curses.wrapper(lambda stdscr: minesweeper(stdscr, user, is_playing, difficulty))
     
@@ -30,7 +30,7 @@ def minesweeper(stdscr, user, is_playing, difficulty):
     elif difficulty == "2":
         rows, cols, mines = 16, 16, 40
     elif difficulty == "3":
-        rows, cols, mines = 30, 16, 99
+        rows, cols, mines = 16, 30, 99
     else:
         print("Invalid choice")
         return None
