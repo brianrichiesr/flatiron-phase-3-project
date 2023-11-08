@@ -8,6 +8,7 @@ import time
 
 
 def start_minesweeper(user):
+    clear()
     print("1. Beginner | 9 x 9 | 10 Mines")
     print("2. Intermediate | 16 x 16 | 40 Mines")
     print("3. Advanced |16 x 30 | 99 Mines")

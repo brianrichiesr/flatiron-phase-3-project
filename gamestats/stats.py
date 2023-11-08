@@ -1,8 +1,8 @@
 from clear_screen import clear
 from database.orm import Database
-import curses
-import time
-
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
 
 def show_stats(user):
     showing = True
@@ -30,15 +30,27 @@ def show_stats(user):
                     response = input(">")
                     if response.lower() == "y":
                         clear()
-                        print("| Game Name | Time Played | Win/Loss | Score |")
+                        table = Table(title="Player Stats")
+                        # columns = ["Game Name","Time Played","Win/Loss","Score"]
+                        table.add_column("Game Name")
+                        table.add_column("Time Played")
+                        table.add_column("Win/Loss")
+                        table.add_column("Score", style="yellow")
+
+                        # print("| Game Name | Time Played | Win/Loss | Score |")
                         win = "\033[32mWin\033[0m"
                         loss = "\033[31mLoss\033[0m"
                         for game in stats_games_played:
-                            points = '\033[33m' + str(game[4]) + '\033[0m'
-                            print(
-                                f'| {game[1]} | {game[2]} seconds | {win if game[3] == 1 else "N/A" if game[3] == 3 else loss} | {points} points|'
-                            )
-                        print("\nPress enter to continue")
+                            win_loss = "Win" if game[3] == 1 else "N/A" if game[3] == 3 else "Loss"
+                            colored_win_loss = Text(win_loss)
+                            if game[3] == 1:
+                                colored_win_loss.stylize("green")
+                            elif game[3] == 0:
+                                colored_win_loss.stylize("red")
+                            table.add_row(game[1], str(game[2]), colored_win_loss, str(game[4]))
+                        console = Console()
+                        console.print(table)
+                        # print("\nPress enter to continue")
                         input(">")
                 else:
                     clear()
@@ -49,9 +61,25 @@ def show_stats(user):
                 if stats_games_played:
                     clear()
                     best_game = Database.best_game(name)
-                    win = "\033[32mWin\033[0m"
-                    loss = "\033[31mLoss\033[0m"
-                    print("Here is your best game")
-                    print(f'| {best_game[0]} | {best_game[1]} seconds | {win if best_game[2] == 1 else loss} | {best_game[3]} points|')
-                    print("\nPress enter to continue")
-                    input(">")
+                    if best_game:
+                        table = Table(title="Best Game")
+                        table.add_column("Game Name")
+                        table.add_column("Time Played")
+                        table.add_column("Win/Loss")
+                        table.add_column("Score", style="yellow")
+
+                        win_loss = "Win" if best_game[2] == 1 else "Loss"
+                        colored_win_loss = Text(win_loss)
+                        if best_game[2] == 1:
+                            colored_win_loss.stylize("green")
+                        else:
+                            colored_win_loss.stylize("red")
+                        table.add_row(best_game[0], str(best_game[1]) + " seconds", colored_win_loss, str(best_game[3]))
+
+                        console.print(table)
+                        print("Press enter to continue")
+                        input("> ")
+                else:
+                    clear()
+                    print("You haven't played any games, press enter to continue")
+                    input("> ")
