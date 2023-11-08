@@ -20,6 +20,7 @@ def show_stats(user):
             print("Enter q to exit")
             print("1. Show games played")
             print("2. Show best game played")
+            print("3. Show leaderboard")
             selection = input("> ")
             if selection == "q":
                 #Quit
@@ -96,3 +97,28 @@ def show_stats(user):
                     clear()
                     print("You haven't played any games, press enter to continue")
                     input("> ")
+            elif selection == "3":
+                #Checks if player has any games played
+                top_players = Database.get_top_players()
+                # if best_game:
+                table = Table(title="Leaderboard")
+                table.add_column("Player")
+                table.add_column("Total Score", style="yellow")
+                table.add_column("Best Game Title")
+                table.add_column("Best Game Score")
+
+                # win_loss = "Win" if best_game[2] == 1 else "Loss"
+                # colored_win_loss = Text(win_loss)
+                # if best_game[2] == 1:
+                #     colored_win_loss.stylize("green")
+                # else:
+                    # colored_win_loss.stylize("red")
+                for player in top_players:
+                    best_game = Database.best_game(player[0])
+                    table.add_row(player[0], str(round(player[1], 2)), best_game[0], str(round(best_game[3], 2)))
+                # , str(best_game[1]) + " seconds", colored_win_loss, str(best_game[3])
+
+                console = Console()
+                console.print(table)
+                print("Press enter to continue")
+                input("> ")

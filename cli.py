@@ -30,8 +30,8 @@ def main():
         print("3. Play Hangman")
         print("4. Play Anagrams")
         print("5. Play Typeracer")
-        print("17. View Stats")
-        print("18. Exit program")
+        print("6. View Stats")
+        print("7. Exit program")
         choice = input("> ")
         if choice == "1":
             start_wordle(user)
@@ -43,9 +43,9 @@ def main():
             start_anagrams(user)
         elif choice == "5":
             start_typeracer(user)
-        elif choice == "17":
+        elif choice == "6":
             show_stats(user)
-        elif choice == "18":
+        elif choice == "7":
             exit()
         else:
             print("Invalid choice")

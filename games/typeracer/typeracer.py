@@ -19,14 +19,14 @@ def typeracer(stdscr,user):
     #Init timer
     start_time = time.time()
     #Get length of solution for later
-    length_solution = len(solution)
+    length_solution = len(solution.split())
     #Init mistakes to 0
     mistakes = 0
     #Main game loop var
     is_playing = True
     #Guess function to check if letter typed matches first letter
     def guess(guess,solution):
-        if guess.lower() == solution[0].lower():
+        if guess == solution[0]:
             return True
         return False
     

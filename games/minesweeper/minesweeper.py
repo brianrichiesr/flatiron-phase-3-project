@@ -51,6 +51,8 @@ def minesweeper(stdscr, difficulty, user):
         except Exception as e:
             print(e)
         # Gets input from user
+        if new_game.check_win():
+            new_game.is_playing = "win"
         key = stdscr.getch()
         # Quit function
         if key == ord('q'):
