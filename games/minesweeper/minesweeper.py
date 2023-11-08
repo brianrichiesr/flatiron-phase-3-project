@@ -1,6 +1,5 @@
 # #!/usr/bin/env python
 from .minesweeper_game import MinesweeperGame
-from wordle.player import Player
 from clear_screen import clear
 from database.orm import Database
 import curses

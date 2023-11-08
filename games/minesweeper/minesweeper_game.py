@@ -1,4 +1,3 @@
-from wordle.player import Player
 import curses
 import random
 import time

@@ -5,7 +5,6 @@ import sys
 import re
 from clear_screen import clear
 sys.path.append(".")
-from wordle.player import Player
 from database.orm import Database
 
 # Function to draw the hangman figure
@@ -116,5 +115,6 @@ def hangman(stdscr,user,is_playing):
                     break
         except:
             # clear()
+            #Resize terminal so no errors if term window is too small
             curses.resizeterm(30, 60)
             continue

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from clear_screen import clear
-from wordle.wordle import start_wordle
-from minesweeper.minesweeper import start_minesweeper
+from games.wordle.wordle import start_wordle
+from games.minesweeper.minesweeper import start_minesweeper
 from gamestats.stats import show_stats
-from hangman.hangman import start_hangman
-from anagrams.anagrams import start_anagrams
-from typeracer.typeracer import start_typeracer
-from wordle.player import Player
+from games.hangman.hangman import start_hangman
+from games.anagrams.anagrams import start_anagrams
+from games.typeracer.typeracer import start_typeracer
+from games.wordle.player import Player
 from database.orm import Database
 import time
 
