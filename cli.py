@@ -12,7 +12,6 @@ import time
 
 # Print the menu of options when the user starts up the app
 def main():
-    print("Before true")
     user = None
     user_name = input("Please enter a username between 1-10 letters: ")
     try:

@@ -83,8 +83,8 @@
 
 ## What I Learned
 
-- `Danner`: Lorem Ipsum
-- `Isaac`: Lorem Ipsum
+- `Danner`: Working with python has truly been an awesome experience. Aside from some getting used to and some finnickey behavior, its an awesome language all around and definitely very beginner friendly. This project has been so much fun to work on, and i can see my teammates passion for code really show. Im so grateful to be a part of the community at `Flatiron` and im super excited to learn more, and see what the rest of the phases have to offer.
+- `Isaac`: Transitioning from web development using JavaScript and React to object-oriented programming using Python has been an intense learning experience. It was very fun learning how to display text inside of a terminal as opposed to displaying colors or images on a website. Python has opened up endless possibilities to what application I can create. With amazing help of Brian and Danner, we were able to use intricate algorithms to create the logic for the games in our application and display the game in the terminal. I am grateful for the `Flatiron` community for bringing this opportunity and I look forward to diving deeper into the world of programming!
 - `Brian`: I learned a lot more about the versatility of `Python` in its ability to interface with `SQL` databases and the terminal directly. I can see the potential of combining `Python` with a front-end langauge to make some incredible apps. The team was great. We collaborated well and were very supportive of each other's struggles with completing this project. We also inspired one another's creativity throughout this process. Thank you Danner, Isaac, and the `Flatiron` community.
 
 
