@@ -131,6 +131,7 @@ class MinesweeperGame:
             return True
         else:
             return False
+        
 
     # Clears the screen and displays message, time, and score
     def final_message(self, message, time_took, score):
@@ -167,6 +168,8 @@ class MinesweeperGame:
         self.stdscr.deleteln()
         # Display numbers of flags left
         self.stdscr.addstr(self.rows + 3, 0, f"Flags: {int(self.mines) - int(self.flags)}")
+        # self.stdscr.addstr(10, 0, f"Total nums: {self.total_numbers}")
+        # self.stdscr.addstr(12, 0, f"Nums found: {self.numbers_found}")
         self.stdscr.refresh()
 
     # Handles every mouse click during the game
@@ -203,8 +206,6 @@ class MinesweeperGame:
                 # If win condition is met, set is_playing status to win
                 else:
                     self.visible_board[y - 1][col] = self.hidden_board[y - 1][col]
-                    if self.check_win():
-                        self.is_playing = "win"
                     self.stdscr.refresh()
                 
 

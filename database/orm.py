@@ -7,9 +7,9 @@ class Database:
 
     #Get all player objects from db
     @classmethod
-    def get_all_players(cls):
+    def get_top_players(cls):
         with connection:
-            return cursor.execute("SELECT * FROM players").fetchall()
+            return cursor.execute("SELECT players.name, SUM(games_played.score) AS max_score FROM players JOIN games_played ON players.id = games_played.player_id GROUP BY players.id ORDER BY max_score DESC LIMIT 5").fetchall()
     
     #Get single player object from db
     @classmethod
@@ -86,7 +86,7 @@ class Database:
 #Insert player
 #Insert game played
 
-# print(Database.get_all_players())
+# print(Database.get_top_players())
 # print(Database.get_player("samantha"))
 # print(Database.get_player_games("peter"))
 # print(Database.get_random_word())
