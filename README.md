@@ -6,7 +6,7 @@
 * [Dependencies](#dependencies)
 * [Starting the Application](#starting-the-application)
 * [Using the Application](#using-the-application)
-* [Optional Features](#optional-features)
+* [Instructions](#instructions)
 * [License](#license)
 * [Attributions](#attributions)
 * [What I Learned](#what-i-learned)
@@ -29,7 +29,7 @@
 
 - [python](https://www.python.org/)
 
-- `sqlite3` should come standard on the `macOS`. You can check by typing `which sqlite3` in the terminal. If you do not see a response like `/usr/bin/sqlite3` then you probably need to install it. Go here to do so [codecademy - install sqlite on mac](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-mac)
+- `sqlite3` should come standard on `macOS`. You can check by typing `which sqlite3` in the terminal. If you do not see a response like `/usr/bin/sqlite3` then you probably need to install it. Go here to do so [codecademy - install sqlite on mac](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-mac)
 
 - To install `sqlite3` on a `windows` machine, go here [codecademy - install sqlite on windows](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-windows)
 
@@ -63,7 +63,7 @@
 - [How to play Minesweeper](https://www.howtogeek.com/how-to-play-minesweeper/)
 - [How to play Hangman](https://www.wikihow.com/Play-Hangman)
 - Instructions for `Anagrams`:
-    - You get a list of letters located at the top of the terminal. You have one minute to make as many words as you can out of the letters listed. You can only use a letter once for each time it appears in the list. For ex., if there is only one 's' in the list you cannot choose the word 'chess' as a valid answer. Answers must be at least 2 letters long. The longer the word the more points.
+    - You get a list of letters located at the top of the terminal. You have one minute to make as many words as you can out of the letters listed. You can only use a letter once for each time it appears in the list. For ex., if there is only one 's' in the list you cannot choose the word 'chess' as a valid answer. Answers must be at least 2 letters long. You receive more points, and more bonus points, for longer words.
 
 
 ## License
@@ -73,7 +73,7 @@
 
 ## Attributions
 
-- The project was completed with collaboration from: `Danner Baumgartner`, `Isaac Song`, and `Brian Richie Sr.`
+- The project was authored by: `Danner Baumgartner`, `Isaac Song`, and `Brian Richie Sr.`
 - This project was created with combination of skills learned from the `Flatiron` curriculum and our own individual research.
 - The data used to seed the original data prior to being modified for the purposes of this project was supplied by [Dracos](https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93) created by `M Somerville`. The data consisted of an expansive file of 5-letter words for our version of [Wordle](https://en.wikipedia.org/wiki/Wordle) created by `Josh Wardle`.
 - We used [Array_This](https://arraythis.com/) created by `populu` to convert the data in an iterable list to easily store each word in our database.
