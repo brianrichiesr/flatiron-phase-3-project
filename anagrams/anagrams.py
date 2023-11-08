@@ -2,18 +2,12 @@
 import requests
 import time
 import curses
-from threading import Timer
 import re
-from clear_screen import clear
 from random import randint
 import math
 import sys
 sys.path.append(".")
 from database.orm import Database
-from wordle.player import Player
-
-
-
 
 # Print the menu of options when the user starts up the app
 def start_anagrams(user):
@@ -47,30 +41,6 @@ def start_anagrams(user):
     
     # Assign the return of the create_list function in a variable accessible all subsequent functionality
     letter_list = create_list()
-
-    # Function that prints info for the user to play the game
-    def enter_word(stdscr):
-        # Clears the terminal
-        clear()
-        # Joins all of the user's guesses from current game and assigns them to variable
-        guess_list = ", ".join(user_guesses)
-        # Joins all of the random letters from current game and assigns them to variable
-        random_letters = ", ".join(letter_list)
-        # Prints user's guesses in terminal
-        print(f"Chosen Words: {guess_list}")
-        # Prints random letters in terminal
-        print(f"{random_letters}")
-        # Prompts user to guess a word from random letters
-        stdscr.clear()
-        stdscr.addstr(0,0,"Create a word from the letters above that you have not already made: ")
-        stdscr.refresh()
-        guess = chr(stdscr.getch())
-        s = stdscr.getstr(0,0, 15)
-        stdscr.clear()
-        stdscr.addstr(0,0,f"You chose {s}")
-        stdscr.refresh()
-
-        return guess
     
     regex = re.compile(r"[^a-zA-Z]")
 
@@ -127,8 +97,9 @@ def start_anagrams(user):
             stdscr.addstr(3,0,f"{guess}")
             stdscr.refresh()
 
+            # Mark time and it more than a minute has passed, end the game
             end_time = time.time()
-            if end_time - start_time > 10:
+            if end_time - start_time > 60:
                 end_game(end_time,stdscr)
                 is_playing = False
                 
@@ -159,6 +130,7 @@ def start_anagrams(user):
                         time.sleep(1.5)
                         # Change boolean to False
                         checker = False
+                        guess = ""
                     else:
                         # Iterate through user's guess
                         for letter in guess:
@@ -171,6 +143,7 @@ def start_anagrams(user):
                                 time.sleep(1.5)
                                 # Change boolean to False
                                 checker = False
+                                guess = ""
                                 # Break loop
                                 break
                             # If the user tries to use a letter more times than it occurred in the list of random letters
@@ -182,6 +155,7 @@ def start_anagrams(user):
                                 time.sleep(1.5)
                                 # Change boolean to False
                                 checker = False
+                                guess = ""
                                 # Break loop
                                 break
                     # If boolean remains True
@@ -206,6 +180,7 @@ def start_anagrams(user):
                                 stdscr.addstr("No repeats!")
                                 stdscr.refresh()
                                 time.sleep(1)
+                                guess = ""
                         else:
                             # Let user know that the word does not exist in the api
                             stdscr.clear()
@@ -213,24 +188,5 @@ def start_anagrams(user):
                             stdscr.refresh()
                             time.sleep(1)
                             guess = ""
-                    
-                        
-            # Assigns result of enter_word function in lowercase and stripped of leading and trailing whitespace
-            # guess = enter_word(stdscr).lower().strip()
-            # Create a boolean
-            
-            # Pause long enough for user to read results of guess
-            # time.sleep(.8)
-            # Mark time
-            
-            # If the user has been playing for less than 1 minute continue playing
-            # if end_time - start_time < 60:
-            #     play_game()
-            # else:
-            #     end_game(end_time)
-    
-        # play_game(stdscr)
-    curses.wrapper(lambda x: play_game(x))
 
-# f = Player("danner")
-# start_anagrams(f)
+    curses.wrapper(lambda x: play_game(x))
