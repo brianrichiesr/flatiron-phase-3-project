@@ -29,7 +29,7 @@
 
 - [python](https://www.python.org/)
 
-- `sqlite3` should come standard on `macOS`. You can check by typing `which sqlite3` in the terminal. If you do not see a response like `/usr/bin/sqlite3` then you probably need to install it. Go here to do so [codecademy - install sqlite on mac](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-mac)
+- `sqlite3` should come standard on the `macOS`. You can check by typing `which sqlite3` in the terminal. If you do not see a response like `/usr/bin/sqlite3` then you probably need to install it. Go here to do so [codecademy - install sqlite on mac](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-mac)
 
 - To install `sqlite3` on a `windows` machine, go here [codecademy - install sqlite on windows](https://www.codecademy.com/resources/videos/setting-up/how-to-install-sqlite-on-windows)
 
@@ -83,7 +83,7 @@
 
 ## What I Learned
 
-- `Danner`: Working with python has truly been an awesome experience. Aside from some getting used to and some finnickey behavior, its an awesome language all around and definitely very beginner friendly. This project has been so much fun to work on, and i can see my teammates passion for code really show. Im so grateful to be a part of the community at `Flatiron` and im super excited to learn more, and see what the rest of the phases have to offer.
+- `Danner`: Lorem Ipsum
 - `Isaac`: Lorem Ipsum
 - `Brian`: I learned a lot more about the versatility of `Python` in its ability to interface with `SQL` databases and the terminal directly. I can see the potential of combining `Python` with a front-end langauge to make some incredible apps. The team was great. We collaborated well and were very supportive of each other's struggles with completing this project. We also inspired one another's creativity throughout this process. Thank you Danner, Isaac, and the `Flatiron` community.
 
