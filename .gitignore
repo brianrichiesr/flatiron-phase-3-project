@@ -160,4 +160,8 @@ cython_debug/
 #.idea/
 
 .DS_Store
+
+
+# Created Files
 database/database.db
+
