@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 from .wordle_game import WordleGame
-from .player import Player
-from wordle.colors import *
+# from games.wordle.player import Player
+import sys
+sys.path.append(".")
+from games.wordle.colors import *
 from database.orm import Database
 from clear_screen import clear
 import curses

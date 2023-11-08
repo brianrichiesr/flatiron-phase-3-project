@@ -5,24 +5,32 @@ from rich.table import Table
 from rich.text import Text
 
 def show_stats(user):
+    
+    #Main loop
+    name = user.username
     showing = True
     while showing:
+        #clear screen
         clear()
         showing_user = True
+        #Second loop
         while showing_user:
-            name = user.username
             clear()
+            #Main options
             print("Enter q to exit")
             print("1. Show games played")
             print("2. Show best game played")
             selection = input("> ")
             if selection == "q":
+                #Quit
                 showing = False
                 showing_user = False
             elif selection == "1":
+                #Get player stats
                 stats_games_played = Database.get_player_games(name)
                 if stats_games_played:
                     clear()
+                    #Ask player if they want to see stats and display games played
                     print(
                 f"You have played {len(stats_games_played)} game{'s' if len(stats_games_played) > 1 or len(stats_games_played) == 0 else ''}, would you like to see the stats?"
                     )
@@ -30,6 +38,7 @@ def show_stats(user):
                     response = input(">")
                     if response.lower() == "y":
                         clear()
+                        #Create table using rich + sql data to populate table
                         table = Table(title="Player Stats")
                         # columns = ["Game Name","Time Played","Win/Loss","Score"]
                         table.add_column("Game Name")
@@ -41,6 +50,7 @@ def show_stats(user):
                         win = "\033[32mWin\033[0m"
                         loss = "\033[31mLoss\033[0m"
                         for game in stats_games_played:
+                            #loop through games played for stats
                             win_loss = "Win" if game[3] == 1 else "N/A" if game[3] == 3 else "Loss"
                             colored_win_loss = Text(win_loss)
                             if game[3] == 1:
@@ -57,8 +67,10 @@ def show_stats(user):
                     print("You have not played any games, press enter to continue")
                     input(">")
             elif selection == "2":
+                #Checks if player has any games played
                 stats_games_played = Database.get_player_games(name)
                 if stats_games_played:
+                    #If player has games played, create table and show best game played
                     clear()
                     best_game = Database.best_game(name)
                     if best_game:
@@ -80,6 +92,7 @@ def show_stats(user):
                         print("Press enter to continue")
                         input("> ")
                 else:
+                    #if no games played, dont display anything
                     clear()
                     print("You haven't played any games, press enter to continue")
                     input("> ")

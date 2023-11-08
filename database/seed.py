@@ -1,10 +1,11 @@
+#!/usr/bin/env python
 import sqlite3
 import sys
 import random
 sys.path.append('.')
-from wordle.valid_words import valid_words
-from wordle.all_words import all_words
-from hangman.hangman_words import hangman_words
+from games.wordle.valid_words import valid_words
+from games.wordle.all_words import all_words
+from games.hangman.hangman_words import hangman_words
 connection = sqlite3.connect("database/database.db")
 cursor = connection.cursor()
 
@@ -59,7 +60,7 @@ def seed(delete=None,extra=None):
         ''')
 
     #!Seeding test for players
-    names = ["Peter", "Ronald", "Blake", "Andrew", "Sienna", "Charlie", "Jason", "Samantha", "John", "Hamburglar"]
+    names = ["Danner", "Brian", "Isaac", "Andrew", "Sienna", "Charlie", "Jason", "Samantha", "John", "Hamburglar"]
     with connection:
         for name in names:
             cursor.execute('''
@@ -83,7 +84,7 @@ def seed(delete=None,extra=None):
     connection.commit()
     print(f"Populated valid words, len: {len(result)}")
 
-     #!Seeding test for all possible wordle guesses
+    #!Seeding test for all possible wordle guesses
     words = hangman_words
 
     with connection:
@@ -110,9 +111,9 @@ def seed(delete=None,extra=None):
     #!Seeding test for random games played
     with connection:
         fake_data = [
-        ("Chess", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
-        ("Checkers", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
-        ("Monopoly", random.uniform(0.5, 5.0), random.choice([0, 1]), random.uniform(0.0, 100.0), random.randint(1, 10)),
+        ("Wordle", round(random.uniform(0.5, 5.0)), round(random.choice([0, 1])), round(random.uniform(0.0, 100.0)), round(random.randint(1, 10))),
+        ("Hangman", round(random.uniform(0.5, 5.0)), round(random.choice([0, 1])), round(random.uniform(0.0, 100.0)), round(random.randint(1, 10))),
+        ("Anagrams", round(random.uniform(0.5, 5.0)), round(random.choice([0, 1])), round(random.uniform(0.0, 100.0)), round(random.randint(1, 10))),
         ]
         for entry in fake_data:
             cursor.execute('''
