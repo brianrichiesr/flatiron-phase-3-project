@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 import requests
 import time
+import curses
 from threading import Timer
+import re
 from clear_screen import clear
-from database.orm import Database
 from random import randint
 import math
+import sys
+sys.path.append(".")
+from database.orm import Database
+
 
 
 
@@ -43,7 +48,7 @@ def start_anagrams(user):
     letter_list = create_list()
 
     # Function that prints info for the user to play the game
-    def enter_word():
+    def enter_word(stdscr):
         # Clears the terminal
         clear()
         # Joins all of the user's guesses from current game and assigns them to variable
@@ -55,8 +60,23 @@ def start_anagrams(user):
         # Prints random letters in terminal
         print(f"{random_letters}")
         # Prompts user to guess a word from random letters
-        guess = input("Create a word from the letters above that you have not already made: ")
+        stdscr.clear()
+        stdscr.addstr(0,0,"Create a word from the letters above that you have not already made: ")
+        stdscr.refresh()
+        guess = chr(stdscr.getch())
+        s = stdscr.getstr(0,0, 15)
+        stdscr.clear()
+        stdscr.addstr(0,0,f"You chose {s}")
+        stdscr.refresh()
+
         return guess
+    
+    regex = re.compile(r"[^a-zA-Z]")
+
+    def alpha(string):
+        if regex.search(string):
+            return False
+        return True
     
     # Function that will make a GET request to a url to check if the user's guess is an actual word
     def check_word(word):
@@ -86,62 +106,84 @@ def start_anagrams(user):
         time.sleep(3)
 
     # Game function
-    def play_game():
-        # Assigns result of enter_word function in lowercase and stripped of leading and trailing whitespace
-        guess = enter_word().lower().strip()
-        # Create a boolean
-        checker = True
-        # If the user's guess is not at least 2 letters long
-        if len(guess) < 2:
-            # Print message
-            print("Your guess must be at least 2 letters long")
-            # Change boolean to False
-            checker = False
-        else:
-            # Iterate through user's guess
-            for letter in guess:
-                # If it comes across a letter that is not in the list of random letters
-                if not letter in letter_list:
-                    # Print message
-                    print("Only make words from letters in list")
-                    # Change boolean to False
-                    checker = False
-                    # Break loop
-                    break
-                # If the user tries to use a letter more times than it occurred in the list of random letters
-                if guess.count(letter) > letter_list.count(letter):
-                    # Print message
-                    print("You can only use a letter once for each occurrence in list")
-                    # Change boolean to False
-                    checker = False
-                    # Break loop
-                    break
-        # If boolean remains True
-        if checker:
-            # Assign the result of check_word function
-            is_word = check_word(guess)
-            # If the status_code of what is returned is 200 then user's guess is a word in the api
-            if is_word.status_code == 200:
-                # If the word has not already been guessed
-                if not guess in user_guesses:
-                    # Print message
-                    print("Nice!!")
-                    # Add guess to guess_list
-                    user_guesses.append(guess)
-                else:
-                    # Print message to let user know that the word has already been added to acceptable guesses
-                    print("No repeats")
+    def play_game(stdscr):
+        is_playing = True
+        guess = ""
+        while is_playing:
+
+            stdscr.clear()
+            stdscr.addstr(f"Playing! {guess}")
+            stdscr.refresh()
+            key = stdscr.getch()
+            if key != -1:
+
+                if key == 127 or key == 263:
+                # Remove last character from user_guess
+                    guess = guess[:-1]
+
+                # If user_guess length is less than 5
+                elif len(guess) <= len(letter_list) and alpha(chr(key)):  
+                    # Add current key value in uppercase to user_guess
+                    guess += chr(key).upper()
+                
+            # Assigns result of enter_word function in lowercase and stripped of leading and trailing whitespace
+            guess = enter_word(stdscr).lower().strip()
+            # Create a boolean
+            checker = True
+            # If the user's guess is not at least 2 letters long
+            if len(guess) < 2:
+                # Print message
+                print("Your guess must be at least 2 letters long")
+                # Change boolean to False
+                checker = False
             else:
-                # Let user know that the word does not exist in the api
-                print("That is not a valid word")
-        # Pause long enough for user to read results of guess
-        time.sleep(.8)
-        # Mark time
-        end_time = time.time()
-        # If the user has been playing for less than 1 minute continue playing
-        if end_time - start_time < 60:
-            play_game()
-        else:
-            end_game(end_time)
+                # Iterate through user's guess
+                for letter in guess:
+                    # If it comes across a letter that is not in the list of random letters
+                    if not letter in letter_list:
+                        # Print message
+                        print("Only make words from letters in list")
+                        # Change boolean to False
+                        checker = False
+                        # Break loop
+                        break
+                    # If the user tries to use a letter more times than it occurred in the list of random letters
+                    if guess.count(letter) > letter_list.count(letter):
+                        # Print message
+                        print("You can only use a letter once for each occurrence in list")
+                        # Change boolean to False
+                        checker = False
+                        # Break loop
+                        break
+            # If boolean remains True
+            if checker:
+                # Assign the result of check_word function
+                is_word = check_word(guess)
+                # If the status_code of what is returned is 200 then user's guess is a word in the api
+                if is_word.status_code == 200:
+                    # If the word has not already been guessed
+                    if not guess in user_guesses:
+                        # Print message
+                        print("Nice!!")
+                        # Add guess to guess_list
+                        user_guesses.append(guess)
+                    else:
+                        # Print message to let user know that the word has already been added to acceptable guesses
+                        print("No repeats")
+                else:
+                    # Let user know that the word does not exist in the api
+                    print("That is not a valid word")
+            # Pause long enough for user to read results of guess
+            time.sleep(.8)
+            # Mark time
+            end_time = time.time()
+            # If the user has been playing for less than 1 minute continue playing
+            # if end_time - start_time < 60:
+            #     play_game()
+            # else:
+            #     end_game(end_time)
     
-    play_game()
+    curses.wrapper(lambda x: play_game(user,x))
+
+
+start_anagrams()
