@@ -60,7 +60,7 @@ def anagrams(stdscr, user):
     # Marks time when game starts
     start_time = time.time()
 
-    def end_game(end_time,stdscr):
+    def end_game(end_time):
         # Calculate score
         score = 0
         # Iterate through guess_list
@@ -80,6 +80,7 @@ def anagrams(stdscr, user):
         Database.insert_game(("Anagrams",round(end_time - start_time,2),3,score,Database.get_player(user.username)[0]))
         # Pause to allow user to read final results of game before returning back to main menu
         time.sleep(3)
+        stdscr.clear()
 
     # Game function
     is_playing = True
@@ -101,7 +102,8 @@ def anagrams(stdscr, user):
 
         end_time = time.time()
         if end_time - start_time > 10:
-            end_game(end_time,stdscr)
+            
+            end_game(end_time)
             curses.endwin()
             is_playing = False
             stdscr.clear()

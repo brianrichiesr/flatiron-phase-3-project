@@ -31,6 +31,7 @@ def start_hangman(user):
 
 # Function to initialize and run the game
 def hangman(stdscr,user,is_playing):
+    stdscr.nodelay(0)
     #Clear screen
     stdscr.clear()
     stdscr.refresh()
