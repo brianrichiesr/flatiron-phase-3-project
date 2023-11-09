@@ -64,6 +64,8 @@
 - [How to play Hangman](https://www.wikihow.com/Play-Hangman)
 - Instructions for `Anagrams`:
     - You get a list of letters located at the top of the terminal. You have one minute to make as many words as you can out of the letters listed. You can only use a letter once for each time it appears in the list. For ex., if there is only one 's' in the list you cannot choose the word 'chess' as a valid answer. Answers must be at least 2 letters long. You receive more points, and more bonus points, for longer words.
+- Instructions for `Typeracer`:
+    - You are given a prompt in the terminal. Your goal is to type out the prompt as fast as you can to get a higher score and words per minute typed. The prompt is case sensitive and makes sure that the letter typed matches the next letter in the phrase.
 
 
 ## License
