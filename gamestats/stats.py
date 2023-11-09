@@ -81,14 +81,14 @@ def show_stats(user):
                         table.add_column("Win/Loss")
                         table.add_column("Score", style="yellow")
 
-                        win_loss = "Win" if best_game[2] == 1 else "Loss"
+                        win_loss = "Win" if best_game[2] == 1 else "N/A" if best_game[2] == 3 else "Loss"
                         colored_win_loss = Text(win_loss)
                         if best_game[2] == 1:
                             colored_win_loss.stylize("green")
-                        else:
+                        elif best_game[2] == 2:
                             colored_win_loss.stylize("red")
                         table.add_row(best_game[0], str(best_game[1]) + " seconds", colored_win_loss, str(best_game[3]))
-
+                        console = Console()
                         console.print(table)
                         print("Press enter to continue")
                         input("> ")

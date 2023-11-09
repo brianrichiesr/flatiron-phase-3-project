@@ -101,7 +101,7 @@ def anagrams(stdscr, user):
         stdscr.refresh()
 
         end_time = time.time()
-        if end_time - start_time > 10:
+        if end_time - start_time > 60:
             
             end_game(end_time)
             curses.endwin()
@@ -111,7 +111,8 @@ def anagrams(stdscr, user):
         key = stdscr.getch()
 
         if key != -1:
-
+            if key == 27:
+                break
             if key == 127 or key == 263:
             # Remove last character from user_guess
                 guess = guess[:-1]
