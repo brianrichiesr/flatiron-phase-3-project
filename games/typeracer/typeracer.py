@@ -39,12 +39,13 @@ def typeracer(stdscr,user):
             return False
         return True
     
+    stdscr.clear()
     #Main game loop
     while is_playing:
         #If text has any letters left
         if (len(solution)):
             #Clear screen
-            stdscr.clear()
+            
             #Add text to page
             stdscr.addstr(0,0,solution)
             stdscr.refresh()
@@ -54,6 +55,7 @@ def typeracer(stdscr,user):
                 if(guess(chr(inp),solution)):
                     #if input is equal to first letter, remove the letter
                     solution = solution[+1:]
+                    stdscr.clear()
 
                 #Else, if input is alphabetical, mistakes + 1
                 elif alpha(chr(inp)):
