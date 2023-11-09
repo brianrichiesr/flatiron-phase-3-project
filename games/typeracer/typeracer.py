@@ -42,20 +42,21 @@ def typeracer(stdscr,user):
     #Main game loop
     while is_playing:
         #If text has any letters left
-        if(not len(solution) == 0):
+        if (len(solution)):
             #Clear screen
             stdscr.clear()
             #Add text to page
             stdscr.addstr(0,0,solution)
             stdscr.refresh()
             #Get input
-            inp = chr(stdscr.getch())
-            if(guess(inp,solution)):
-                #if input is equal to first letter, remove the letter
-                solution = solution[+1:]
+            inp = stdscr.getch()
+            if inp != -1:
+                if(guess(chr(inp),solution)):
+                    #if input is equal to first letter, remove the letter
+                    solution = solution[+1:]
 
-            #Else, if input is alphabetical, mistakes + 1
-            elif alpha(inp):
+                #Else, if input is alphabetical, mistakes + 1
+                elif alpha(chr(inp)):
                     mistakes +=1
         else:
             #Get current time for end time

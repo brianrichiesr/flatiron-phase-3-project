@@ -12,6 +12,9 @@ from database.orm import Database
 
 # Print the menu of options when the user starts up the app
 def start_anagrams(user):
+    curses.wrapper(lambda x: anagrams(x, user))
+
+def anagrams(stdscr, user):
     # List to hold the user's guesses
     user_guesses = []
     # String of vowels and consonants
@@ -79,109 +82,108 @@ def start_anagrams(user):
         time.sleep(3)
 
     # Game function
-    def play_game(stdscr):
-        is_playing = True
-        guess = ""
-        stdscr.nodelay(1)
-        stdscr.clear()
-        while is_playing:
-            guess_list = ", ".join(user_guesses)
-            # Joins all of the random letters from current game and assigns them to variable
-            random_letters = ", ".join(letter_list)
-            # Prints user's guesses in terminal
-            
-            stdscr.addstr(0,0,f"Chosen Words: {guess_list}")
-            # Prints random letters in terminal
-            stdscr.addstr(1,0,f"{random_letters}")
-            stdscr.addstr(2,0,"Create a word from the letters above that you have not already made: \n")
-            stdscr.addstr(3,0,f"{guess}")
-            stdscr.refresh()
+    is_playing = True
+    guess = ""
+    stdscr.nodelay(1)
+    stdscr.clear()
+    while is_playing:
+        guess_list = ", ".join(user_guesses)
+        # Joins all of the random letters from current game and assigns them to variable
+        random_letters = ", ".join(letter_list)
+        # Prints user's guesses in terminal
+        
+        stdscr.addstr(0,0,f"Chosen Words: {guess_list}")
+        # Prints random letters in terminal
+        stdscr.addstr(1,0,f"{random_letters}")
+        stdscr.addstr(2,0,"Create a word from the letters above that you have not already made: \n")
+        stdscr.addstr(3,0,f"{guess}")
+        stdscr.refresh()
 
-            end_time = time.time()
-            if end_time - start_time > 10:
-                end_game(end_time,stdscr)
-                is_playing = False
-                
+        end_time = time.time()
+        if end_time - start_time > 10:
+            end_game(end_time,stdscr)
+            curses.endwin()
+            is_playing = False
+            stdscr.clear()
 
-            key = stdscr.getch()
+        key = stdscr.getch()
 
-            if key != -1:
+        if key != -1:
 
-                if key == 127 or key == 263:
-                # Remove last character from user_guess
-                    guess = guess[:-1]
-                    stdscr.deleteln()
-                    stdscr.addstr(3,0,f"{guess}")
+            if key == 127 or key == 263:
+            # Remove last character from user_guess
+                guess = guess[:-1]
+                stdscr.deleteln()
+                stdscr.addstr(3,0,f"{guess}")
 
-                # If guess is less than or equal to length of list of letters
-                elif len(guess) <= len(letter_list) and alpha(chr(key)):  
-                    # Add current key pressed lowercased to current guess
-                    guess += chr(key).lower()
+            # If guess is less than or equal to length of list of letters
+            elif len(guess) <= len(letter_list) and alpha(chr(key)):  
+                # Add current key pressed lowercased to current guess
+                guess += chr(key).lower()
 
-                if key == 10:
-                    checker = True
-                    # If the user's guess is not at least 2 letters long
-                    if len(guess) < 2:
-                        # Print message
-                        stdscr.clear()
-                        stdscr.addstr("Word must be longer than 2 letters")
-                        stdscr.refresh()
-                        time.sleep(1.5)
-                        # Change boolean to False
-                        checker = False
-                    else:
-                        # Iterate through user's guess
-                        for letter in guess:
-                            # If it comes across a letter that is not in the list of random letters
-                            if not letter in letter_list:
-                                # Print message
-                                stdscr.clear()
-                                stdscr.addstr("You can only use letters in the list")
-                                stdscr.refresh()
-                                time.sleep(1.5)
-                                # Change boolean to False
-                                checker = False
-                                # Break loop
-                                break
-                            # If the user tries to use a letter more times than it occurred in the list of random letters
-                            if guess.count(letter) > letter_list.count(letter):
-                                # Print message
-                                stdscr.clear()
-                                stdscr.addstr("You can only use a letter once for each occurrence in list")
-                                stdscr.refresh()
-                                time.sleep(1.5)
-                                # Change boolean to False
-                                checker = False
-                                # Break loop
-                                break
-                    # If boolean remains True
-                    if checker:
-                        # Assign the result of check_word function
-                        is_word = check_word(guess)
-                        # If the status_code of what is returned is 200 then user's guess is a word in the api
-                        if is_word.status_code == 200:
-                            # If the word has not already been guessed
-                            if not guess in user_guesses:
-                                # Print message
-                                stdscr.clear()
-                                stdscr.addstr("Nice!!")
-                                stdscr.refresh()
-                                time.sleep(1.5)
-                                # Add guess to guess_list
-                                user_guesses.append(guess)
-                                guess = ""
-                            else:
-                                # Print message to let user know that the word has already been added to acceptable guesses
-                                stdscr.clear()
-                                stdscr.addstr("No repeats!")
-                                stdscr.refresh()
-                                time.sleep(1)
-                        else:
-                            # Let user know that the word does not exist in the api
+            if key == 10:
+                checker = True
+                # If the user's guess is not at least 2 letters long
+                if len(guess) < 2:
+                    # Print message
+                    stdscr.clear()
+                    stdscr.addstr("Word must be longer than 2 letters")
+                    stdscr.refresh()
+                    time.sleep(1.5)
+                    # Change boolean to False
+                    checker = False
+                else:
+                    # Iterate through user's guess
+                    for letter in guess:
+                        # If it comes across a letter that is not in the list of random letters
+                        if not letter in letter_list:
+                            # Print message
                             stdscr.clear()
-                            stdscr.addstr("That is not a valid word!!")
+                            stdscr.addstr("You can only use letters in the list")
+                            stdscr.refresh()
+                            time.sleep(1.5)
+                            # Change boolean to False
+                            checker = False
+                            # Break loop
+                            break
+                        # If the user tries to use a letter more times than it occurred in the list of random letters
+                        if guess.count(letter) > letter_list.count(letter):
+                            # Print message
+                            stdscr.clear()
+                            stdscr.addstr("You can only use a letter once for each occurrence in list")
+                            stdscr.refresh()
+                            time.sleep(1.5)
+                            # Change boolean to False
+                            checker = False
+                            # Break loop
+                            break
+                # If boolean remains True
+                if checker:
+                    # Assign the result of check_word function
+                    is_word = check_word(guess)
+                    # If the status_code of what is returned is 200 then user's guess is a word in the api
+                    if is_word.status_code == 200:
+                        # If the word has not already been guessed
+                        if not guess in user_guesses:
+                            # Print message
+                            stdscr.clear()
+                            stdscr.addstr("Nice!!")
+                            stdscr.refresh()
+                            time.sleep(1.5)
+                            # Add guess to guess_list
+                            user_guesses.append(guess)
+                            guess = ""
+                        else:
+                            # Print message to let user know that the word has already been added to acceptable guesses
+                            stdscr.clear()
+                            stdscr.addstr("No repeats!")
                             stdscr.refresh()
                             time.sleep(1)
-                            guess = ""
-
-    curses.wrapper(lambda x: play_game(x))
+                    else:
+                        # Let user know that the word does not exist in the api
+                        stdscr.clear()
+                        stdscr.addstr("That is not a valid word!!")
+                        stdscr.refresh()
+                        time.sleep(1)
+                        guess = ""
+    

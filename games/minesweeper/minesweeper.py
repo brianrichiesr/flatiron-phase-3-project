@@ -88,6 +88,7 @@ def minesweeper(stdscr, difficulty, user):
         # Win logic
         elif new_game.is_playing == "win":
             end_time = time.time()
+            time_took = end_time - start_time
             score = round(((rows * cols) - mines) * (60 / time_took), 0)
             # Add game information to database
             Database.insert_game(("Minesweeper", round(time_took, 2), 1, score, Database.get_player(user.username)[0]))
