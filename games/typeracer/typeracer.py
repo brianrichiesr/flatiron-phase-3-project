@@ -52,6 +52,8 @@ def typeracer(stdscr,user):
             #Get input
             inp = stdscr.getch()
             if inp != -1:
+                if inp == 27:
+                    break
                 if(guess(chr(inp),solution)):
                     #if input is equal to first letter, remove the letter
                     solution = solution[+1:]
@@ -78,3 +80,4 @@ def typeracer(stdscr,user):
             time.sleep(3.5)
             #Break from main loop back to cli
             is_playing = False
+        
