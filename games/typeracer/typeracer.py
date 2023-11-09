@@ -10,8 +10,6 @@ def start_typeracer(user):
 
 #Main game function
 def typeracer(stdscr,user):
-    stdscr.nodelay(0)
-    stdscr.clear()
     #Resize terminal so text wraps easier
     curses.resizeterm(30, 60)
     #All texts
@@ -41,27 +39,27 @@ def typeracer(stdscr,user):
             return False
         return True
     
+    stdscr.clear()
     #Main game loop
     while is_playing:
         #If text has any letters left
         if (len(solution)):
             #Clear screen
-            stdscr.clear()
+            
             #Add text to page
             stdscr.addstr(0,0,solution)
             stdscr.refresh()
             #Get input
             inp = stdscr.getch()
-            # if inp != curses.ERR:
-                
-            if(guess(chr(inp),solution)):
-                #if input is equal to first letter, remove the letter
-                solution = solution[+1:]
+            if inp != -1:
+                if(guess(chr(inp),solution)):
+                    #if input is equal to first letter, remove the letter
+                    solution = solution[+1:]
+                    stdscr.clear()
 
-            #Else, if input is alphabetical, mistakes + 1
-            elif alpha(chr(inp)):
-                mistakes +=1
-
+                #Else, if input is alphabetical, mistakes + 1
+                elif alpha(chr(inp)):
+                    mistakes +=1
         else:
             #Get current time for end time
             end_time = time.time()
