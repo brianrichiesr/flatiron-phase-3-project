@@ -42,6 +42,7 @@ def main():
         elif choice == "4":
             start_anagrams(user)
         elif choice == "5":
+            clear()
             start_typeracer(user)
         elif choice == "6":
             show_stats(user)

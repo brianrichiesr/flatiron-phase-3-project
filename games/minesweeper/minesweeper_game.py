@@ -169,9 +169,7 @@ class MinesweeperGame:
         self.stdscr.move(self.rows + 3, 0)
         self.stdscr.deleteln()
         # Display numbers of flags left
-        # self.stdscr.addstr(self.rows + 3, 0, f"Flags: {int(self.mines) - int(self.flags)}")
-        self.stdscr.addstr(10, 0, f"Total nums: {self.total_numbers}")
-        self.stdscr.addstr(12, 0, f"Nums found: {self.numbers_found}")
+        self.stdscr.addstr(self.rows + 3, 0, f"Flags: {int(self.mines) - int(self.flags)}")
         self.stdscr.refresh()
 
     # Handles every mouse click during the game
