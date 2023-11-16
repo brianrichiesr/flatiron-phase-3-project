@@ -9,6 +9,7 @@ faker = "*"
 pytest = "7.1.3"
 clear-screen = "*"
 requests = "*"
+rich = "*"
 
 [dev-packages]
 
